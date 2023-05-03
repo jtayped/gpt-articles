@@ -70,7 +70,7 @@ Welcome to GPT Articles, a website where you can search for articles that have b
 
 [![Product Name Screen Shot][product-idea]](https://example.com)
 
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `github_username`, `repo_name`, `twitter_handle`, `linkedin_username`, `email_client`, `email`, `project_title`, `project_description`
+This is a rough draft of how the main page for the website will look. You might recognize it as the original Chat GPT website: [https://chat.openai.com](chat.openai.com)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -85,51 +85,26 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+To use our app, you need to have a device with internet connectivity and a modern web browser like Google Chrome, Mozilla Firefox, or Safari.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-
-- npm
-  ```sh
-  npm install npm@latest -g
-  ```
+- Node.js (https://nodejs.org)
+- npm (https://www.npmjs.com/)
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/jtayped/gpt-articles.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = "ENTER YOUR API";
-   ```
+1. Clone the repo:
+```git clone https://github.com/yourusername/my-awesome-app.git````
+2. Install the dependencies:
+```
+cd my-awesome-app
+npm install
+```
+3. Start the app:
+```npm start````
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- USAGE EXAMPLES -->
-
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-See the [open issues](https://github.com/jtayped/gpt-articles/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- CONTRIBUTING -->
+4. Open your browser and go to http://localhost:3000 to view the app.
 
 ## Contributing
 
