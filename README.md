@@ -18,8 +18,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="/images/profile.png">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/jtayped/gpt-articles">
+    <img src="https://github.com/jtayped/gpt-articles/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center">GPT Articles</h3>
@@ -95,14 +95,16 @@ To use our app, you need to have a device with internet connectivity and a moder
 ### Installation
 
 1. Clone the repo:
-```git clone https://github.com/yourusername/my-awesome-app.git````
+   ```git clone https://github.com/yourusername/my-awesome-app.git````
 2. Install the dependencies:
+
 ```
 cd my-awesome-app
 npm install
 ```
+
 3. Start the app:
-```npm start````
+   ```npm start````
 
 4. Open your browser and go to http://localhost:3000 to view the app.
 
@@ -155,6 +157,7 @@ Project Link: [https://github.com/jtayped/gpt-articles](https://github.com/jtayp
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/joel-taylor-065bb8263/
 [product-idea]: images/screenshot.png
+[profile-picture]: images/profile.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
