@@ -1,10 +1,17 @@
 // React Util
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Icons
 import { BsPlus } from "react-icons/bs";
 import { FiMessageSquare } from "react-icons/fi";
+import { IoSettingsSharp } from "react-icons/io5";
+
+// Firebase
+import { auth } from "../config/firebase";
+
+// Animation
+import { motion, AnimatePresence } from "framer-motion";
 
 const SideBarArticle = ({ name, link }) => {
   return (
@@ -31,14 +38,22 @@ const SideBarSection = ({ title, articles, nArticles }) => {
       </h3>
       <ol>
         {articles.slice(0, nArticles).map((article, index) => (
-          <SideBarArticle
-            key={index}
-            name={article.name}
-            link={article.link}
-          />
+          <SideBarArticle key={index} name={article.name} link={article.link} />
         ))}
       </ol>
     </li>
+  );
+};
+
+const SideBarAccountOption = ({ name, icon, funct }) => {
+  return (
+    <button
+      className="flex py-3 px-3 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm hover:bg-gray-800 rounded-md"
+      onClick={() => funct}
+    >
+      {icon}
+      <p>{name}</p>
+    </button>
   );
 };
 
@@ -55,6 +70,11 @@ const SideBar = () => {
     { name: "Unique Social Media Ideas", link: "/linktoarticle" },
     { name: "Analizando Oraciones en Español", link: "/linktoarticle" },
   ];
+
+  const [isAccountOpts, setAccountOpts] = useState(true);
+  function toggleAccountOpts() {
+    setAccountOpts(!isAccountOpts);
+  }
 
   return (
     <aside className="dark hidden w-[260px] h-full flex-shrink-0 flex-col overflow-x-hidden bg-gpt-500 md:flex">
@@ -85,7 +105,37 @@ const SideBar = () => {
             />
           </ol>
         </div>
-        <div className="border-t border-white/20 pt-2"></div>
+        <nav className="border-t border-white/20 pt-2">
+          <div className="relative">
+            <AnimatePresence>
+              {isAccountOpts ? (
+                <motion.nav
+                  className="relative bottom-0 bg-black p-3 rounded-lg"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <button className="flex items-center gap-3">
+                    <IoSettingsSharp size={20} />
+                    <p>Settings</p>
+                  </button>
+                </motion.nav>
+              ) : null}
+            </AnimatePresence>
+            <SideBarAccountOption
+              key="yourAccount"
+              name={auth.currentUser.displayName}
+              icon={
+                <img
+                  src={auth.currentUser.photoURL}
+                  className="h-[30px] rounded-sm"
+                  alt="Profile"
+                />
+              }
+              funct={toggleAccountOpts}
+            />
+          </div>
+        </nav>
       </nav>
     </aside>
   );
