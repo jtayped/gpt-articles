@@ -18,6 +18,9 @@ import { signOut } from "firebase/auth";
 // Animation
 import { motion, AnimatePresence } from "framer-motion";
 
+// Images
+import DefaultPFP from "../assets/defaultPFP.webp"
+
 const SideBarArticle = ({ name, link }) => {
   return (
     <li>
@@ -158,7 +161,11 @@ const SideBar = () => {
               name={auth.currentUser.displayName}
               icon={
                 <img
-                  src={auth.currentUser.photoURL}
+                  src={
+                    auth.currentUser.photoURL
+                      ? auth.currentUser.photoURL
+                      : DefaultPFP
+                  }
                   className="h-[20px] rounded-sm"
                   alt="Profile"
                 />

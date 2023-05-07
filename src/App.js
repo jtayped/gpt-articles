@@ -35,15 +35,18 @@ function App() {
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        <p className="text-4xl w-[100px] text-white font-bold">Loading{dots}</p>
+        <p className="text-2xl sm:text-4xl w-[100px] text-white font-bold">
+          Loading{dots}
+        </p>
       </div>
     );
   }
-
+  
   return (
     <BrowserRouter>
       <Routes>
-        <Route exact path="" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
+
         <Route exact path="/auth" element={<Auth />} />
         <Route exact path="/auth/login" element={<LogIn />} />
         <Route exact path="/auth/signup" element={<SignUp />} />
