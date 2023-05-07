@@ -1,8 +1,12 @@
 // React Util
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../config/firebase";
-import { createUserWithEmailAndPassword, AuthErrorCodes } from "firebase/auth";
+import { auth, googleProvider } from "../config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  AuthErrorCodes,
+  signInWithPopup,
+} from "firebase/auth";
 import Logo from "../assets/vector/default-monochrome-black.svg";
 import Google from "../assets/vector/google.svg";
 
@@ -53,6 +57,17 @@ const SignIn = () => {
         break;
       default:
         break;
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      // The sign-in was successful, you can access the user information with `result.user`
+      navigate("/");
+    } catch (err) {
+      setError("There has been an error, try again later!");
+      console.error(err);
     }
   };
 
@@ -126,7 +141,10 @@ const SignIn = () => {
           </Link>
         </p>
         <p className="mb-3 text-sm">OR</p>
-        <button className="px-4 py-3.5 flex items-center gap-4 text-lg border w-full bg-white border-gray-500/40 rounded-[3px] hover:bg-gray-500/20 transition-all duration-200">
+        <button
+          className="px-4 py-3.5 flex items-center gap-4 text-lg border w-full bg-white border-gray-500/40 rounded-[3px] hover:bg-gray-500/20 transition-all duration-200"
+          onClick={handleGoogleSignIn}
+        >
           <img src={Google} className="h-6" alt="google" /> Continue with Google
         </button>
       </main>

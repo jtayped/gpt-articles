@@ -3,9 +3,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Firebase
-import { googleSignIn } from "../js/firebaseFunctions";
-import { signInWithEmailAndPassword, AuthErrorCodes } from "firebase/auth";
-import { auth } from "../config/firebase";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, googleProvider } from "../config/firebase";
 
 // Branding
 import Logo from "../assets/vector/default-monochrome-black.svg";
@@ -26,6 +25,17 @@ const LogIn = () => {
       navigate("/");
     } catch (err) {
       setError("Invalid details. Try again.");
+      console.error(err);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      // The sign-in was successful, you can access the user information with `result.user`
+      navigate("/");
+    } catch (err) {
+      setError("There has been an error, try again later!");
       console.error(err);
     }
   };
@@ -77,8 +87,8 @@ const LogIn = () => {
         </p>
         <p className="mb-3 text-sm">OR</p>
         <button
-          onClick={googleSignIn}
           className="px-4 py-3.5 flex items-center gap-4 text-lg border w-full bg-white border-gray-500/40 rounded-[3px] hover:bg-gray-500/20 transition-all duration-200"
+          onClick={handleGoogleSignIn}
         >
           <img src={Google} className="h-6" alt="google" /> Continue with Google
         </button>
