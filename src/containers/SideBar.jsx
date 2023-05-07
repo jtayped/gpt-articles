@@ -30,8 +30,12 @@ const SideBarSection = ({ title, articles, nArticles }) => {
         {title}
       </h3>
       <ol>
-        {articles.slice(0, nArticles).map((index, article) => (
-          <SideBarArticle key={index} name={article.name} link={article.link} />
+        {articles.slice(0, nArticles).map((article, index) => (
+          <SideBarArticle
+            key={index}
+            name={article.name}
+            link={article.link}
+          />
         ))}
       </ol>
     </li>
@@ -68,11 +72,13 @@ const SideBar = () => {
           </h2>
           <ol>
             <SideBarSection
+              key="recentSection"
               title="Recent"
               articles={tempArticles}
               nArticles={4}
             />
             <SideBarSection
+              key="mostLikedSection"
               title="Most Liked"
               articles={tempArticles}
               nArticles={3}
