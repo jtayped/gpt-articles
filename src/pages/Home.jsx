@@ -1,5 +1,6 @@
 import React from "react";
 import { SideBar } from "../containers";
+import withAuthRedirect from "../js/withAuthRedirect";
 
 const Home = () => {
   return (
@@ -10,4 +11,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default withAuthRedirect(Home);

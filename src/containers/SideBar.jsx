@@ -6,9 +6,6 @@ import { Link } from "react-router-dom";
 import { BsPlus } from "react-icons/bs";
 import { FiMessageSquare } from "react-icons/fi";
 
-// Firebase
-import { auth } from "../config/firebase";
-
 const SideBarArticle = ({ name, link }) => {
   return (
     <li>
@@ -32,11 +29,11 @@ const SideBarSection = ({ title, articles, nArticles }) => {
       <h3 className="h-9 pb-2 pt-3 px-3 text-xs text-gray-500 font-medium text-ellipsis overflow-hidden break-all">
         {title}
       </h3>
-      <ul>
-        {articles.slice(0, nArticles).map((article) => (
-          <SideBarArticle name={article.name} link={article.link} />
+      <ol>
+        {articles.slice(0, nArticles).map((index, article) => (
+          <SideBarArticle key={index} name={article.name} link={article.link} />
         ))}
-      </ul>
+      </ol>
     </li>
   );
 };
@@ -44,7 +41,6 @@ const SideBarSection = ({ title, articles, nArticles }) => {
 const SideBar = () => {
   const tempArticles = [
     { name: "Legal issues in copying", link: "/linktoarticle" },
-    { name: "Previous 7 Days", link: "/linktoarticle" },
     { name: "GPT Article Website", link: "/linktoarticle" },
     { name: "Adding .then() to function", link: "/linktoarticle" },
     { name: "Firebase Twitter-like functions", link: "/linktoarticle" },
@@ -52,7 +48,6 @@ const SideBar = () => {
     { name: "SEO Expert Meta Descriptions", link: "/linktoarticle" },
     { name: "Subordinadas y sus tipos", link: "/linktoarticle" },
     { name: "Cook eggs thoroughly", link: "/linktoarticle" },
-    { name: "New chat", link: "/linktoarticle" },
     { name: "Unique Social Media Ideas", link: "/linktoarticle" },
     { name: "Analizando Oraciones en Español", link: "/linktoarticle" },
   ];
