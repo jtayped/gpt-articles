@@ -14,22 +14,20 @@ const Auth = () => {
         <p className="text-center mt-3 text-white">
           Log in with your GPT Articles account to continue
         </p>
-        <div class="flex flex-row gap-3 mt-3">
+        <div className="flex flex-row gap-3 mt-3">
           <Link
             to="/auth/login"
-            class="btn relative btn-primary"
-            className="bg-[#19c37d] text-white text-sm p-2 px-3 rounded-sm hover:brightness-75"
+            className="bg-[#10A37F] text-white text-sm p-2 px-4 rounded-sm hover:bg-[#1A7F64]"
           >
-            <div class="flex w-full items-center justify-center gap-2">
+            <div className="flex w-full items-center justify-center gap-2">
               Log in
             </div>
           </Link>
           <Link
             to="/auth/signup"
-            class="btn relative btn-primary"
-            className="bg-[#19c37d] text-white text-sm p-2 px-3 rounded-sm hover:brightness-75"
+            className="bg-[#10A37F] text-white text-sm p-2 px-4 rounded-sm hover:bg-[#1A7F64]"
           >
-            <div class="flex w-full items-center justify-center gap-2">
+            <div className="flex w-full items-center justify-center gap-2">
               Sign up
             </div>
           </Link>

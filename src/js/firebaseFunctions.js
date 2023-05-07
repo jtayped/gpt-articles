@@ -1,6 +1,8 @@
-import { auth } from "../config/firebase";
+import { auth, googleProvider } from "../config/firebase";
 import {
   createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
   signOut,
   updateProfile,
   sendEmailVerification,
@@ -19,6 +21,28 @@ export function createUserEmailAndPassword(email, password) {
         reject(error);
       });
   });
+}
+
+export function googleSignIn() {
+  return new Promise((resolve, reject) => {
+    signInWithRedirect(auth, googleProvider)
+      .then((userCredential) => {
+        resolve(userCredential);
+      })
+      .catch((error) => {
+        console.error(error);
+        reject(error);
+      });
+  });
+}
+
+export function signIn(email, password) {
+  signInWithEmailAndPassword(auth, email, password)
+    .then(() => {
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 export function logOut() {

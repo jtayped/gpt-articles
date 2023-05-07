@@ -4,27 +4,27 @@ import { useNavigate } from "react-router-dom";
 
 // Firebase
 import { onAuthStateChanged } from "firebase/auth";
-import {auth} from "../config/firebase"
+import { auth } from "../config/firebase";
 
-const withAuthRedirect = (WrappedComponent) => {
-  const Wrapper = (props) => {
+const withAuthentication = (WrappedComponent) => {
+  return function WithAuthentication(props) {
     const navigate = useNavigate();
 
     useEffect(() => {
-      const checkAuthStatus = () => {
-        if (!auth.currentUser) {
-          // User is not logged in, redirect to the desired page
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        console.log(user)
+        if (!user) {
           navigate("/auth");
         }
-      };
+      });
 
-      return () => checkAuthStatus();
+      return () => {
+        unsubscribe();
+      };
     }, [navigate]);
 
     return <WrappedComponent {...props} />;
   };
-
-  return Wrapper;
 };
 
-export default withAuthRedirect;
+export default withAuthentication;
