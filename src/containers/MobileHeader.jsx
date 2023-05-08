@@ -14,7 +14,7 @@ import Logo from "../assets/vector/isolated-monochrome-white.svg";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MobileHeader = () => {
-  const [isSideBarActive, setSideBar] = useState(true);
+  const [isSideBarActive, setSideBar] = useState(false);
   function toggleSideBar() {
     setSideBar(!isSideBarActive);
   }

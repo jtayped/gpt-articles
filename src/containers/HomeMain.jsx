@@ -68,7 +68,7 @@ const HomeMain = () => {
     <main className="relative h-full w-full transition-width flex flex-col items-stretch flex-1">
       <div className="flex flex-col items-center justify-between text-sm dark:bg-gpt-400">
         {" "}
-        <div className="text-gpt-200 w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6 dark:text-gray-100 scrollbar-thin scrollbar-thumb-gpt-300">
+        <div className="text-gpt-200 w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6 dark:text-gray-100">
           <h1 className="text-4xl font-semibold text-center sm:mt-[10vh] hidden md:flex ml-auto mr-auto mb-10 sm:mb-16 gap-2 items-center justify-center">
             GPT Articles
           </h1>
