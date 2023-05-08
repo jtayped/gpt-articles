@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <>
       {auth.currentUser ? (
-        <div className="overflow-hidden w-full h-screen relative flex z-0 text-slate-100">
+        <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100">
           {" "}
           <div className="hidden md:flex">
             <SideBar />
