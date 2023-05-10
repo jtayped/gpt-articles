@@ -19,7 +19,7 @@ import { signOut } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Images
-import DefaultPFP from "../assets/defaultPFP.webp"
+import DefaultPFP from "../assets/defaultPFP.webp";
 
 const SideBarArticle = ({ name, link }) => {
   return (

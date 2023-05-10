@@ -1,7 +1,16 @@
-import React, { useState } from "react";
+// React Util
+import React, { useEffect, useState } from "react";
+
+// JSX Components
 import { SideBar, MobileHeader, HomeMain } from "../containers";
+
+// JS
 import withAuthentication from "../js/withAuthRedirect";
-import { auth } from "../config/firebase";
+import { createArticle } from "../js/firebaseFunctions";
+
+// Firebase
+import { auth, db } from "../config/firebase";
+import { query, orderBy, limit, collection, getDocs } from "firebase/firestore";
 
 const Home = () => {
   const [mostLikedArticles, setMostLikedArticles] = useState([]);
@@ -10,6 +19,26 @@ const Home = () => {
   const [trendingArticles, setTrendingArticles] = useState([]);
   const [discoveryArticles, setDiscoveryArticles] = useState([]);
   const [followingArticles, setFollowingArticles] = useState([]);
+
+  useEffect(() => {
+    const getArticlesOrderedBy = async (orderedBy, nArticles, setFunction) => {
+      const articlesCollection = collection(db, "articles");
+      const q = query(articlesCollection, orderBy(orderedBy), limit(nArticles));
+      const querySnapshot = await getDocs(q);
+
+      const articles = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      setFunction(articles);
+    };
+
+    getArticlesOrderedBy("likes", 3, setMostLikedArticles);
+    getArticlesOrderedBy("timestamp", 3, setRecentArticles);
+
+    createArticle(auth.currentUser.uid, "Artificial Intelligence");
+  }, []);
 
   return (
     <>
