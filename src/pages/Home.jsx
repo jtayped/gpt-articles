@@ -6,12 +6,17 @@ import { SideBar, MobileHeader, HomeMain } from "../containers";
 
 // JS
 import withAuthentication from "../js/withAuthRedirect";
-import { getArticlesOrderedBy } from "../js/firebaseFunctions";
+import {
+  getArticlesOrderedBy,
+  getRandomArticles,
+} from "../js/firebaseFunctions";
 
 // Firebase
 import { auth } from "../config/firebase";
 
 const Home = () => {
+  const [isLoadingArticles, setLoadingArticles] = useState(true);
+
   const [mostLikedArticles, setMostLikedArticles] = useState([]);
   const [recentArticles, setRecentArticles] = useState([]);
 
@@ -20,8 +25,21 @@ const Home = () => {
   const [followingArticles, setFollowingArticles] = useState([]);
 
   useEffect(() => {
-    getArticlesOrderedBy("likes", 3, setMostLikedArticles);
-    getArticlesOrderedBy("timestamp", 3, setRecentArticles);
+    setLoadingArticles(true);
+
+    getArticlesOrderedBy("likes", 3).then((articles) => {
+      setMostLikedArticles(articles);
+    });
+    getArticlesOrderedBy("timestamp", 3).then((articles) => {
+      setRecentArticles(articles);
+      setLoadingArticles(false);
+    });
+
+    getRandomArticles(3).then((articles) => {
+      setTrendingArticles(articles);
+      setDiscoveryArticles(articles);
+      setFollowingArticles(articles);
+    });
   }, []);
 
   return (
@@ -32,6 +50,7 @@ const Home = () => {
             <SideBar
               recentArticles={recentArticles}
               mostLikedArticles={mostLikedArticles}
+              isLoadingArticles={isLoadingArticles}
             />
           </div>
           <div className="flex md:hidden w-screen h-10">
@@ -41,6 +60,7 @@ const Home = () => {
             trendingArticles={trendingArticles}
             discoveryArticles={discoveryArticles}
             followingArticles={followingArticles}
+            isLoadingArticles={isLoadingArticles}
           />
         </div>
       ) : null}

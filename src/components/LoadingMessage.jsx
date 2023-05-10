@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const LoadingMessage = ({ message }) => {
+const LoadingMessage = ({ message, centered }) => {
   const [dots, setDots] = useState(".");
 
   useEffect(() => {
@@ -17,7 +17,11 @@ const LoadingMessage = ({ message }) => {
   }, [dots]);
 
   return (
-    <p className="text-2xl sm:text-4xl w-[100px] text-white font-bold">
+    <p
+      className={`text-xs w-[100px] text-white font-bold ${
+        centered ? "place-self-center text-center" : null
+      }`}
+    >
       {message}
       {dots}
     </p>

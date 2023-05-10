@@ -36,7 +36,7 @@ function App() {
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        <LoadingMessage message="Loading" />
+        <LoadingMessage message="Loading" centered={true} />
       </div>
     );
   }

@@ -15,7 +15,7 @@ const Search = () => {
   return (
     <div className="absolute bottom-0 left-0 w-full h-[125px] border-t dark:border-white/20 md:bg-vert-light-gradient bg-white dark:bg-gpt-400 dark:md:bg-vert-dark-gradient pt-2">
       <form
-        action={() => searchForArticles}
+        action="searchForArticles"
         className="mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
       >
         <div className="relative flex h-full flex-1 items-stretch md:flex-col">
