@@ -12,7 +12,7 @@ const HomeMainSectionArticle = ({ articleTitle }) => {
   return (
     <li className="w-full p-3 bg-gpt-50 dark:bg-white/5 rounded-md hover:bg-gpt-100 dark:hover:bg-gpt-500">
       <Link to="/linktoarticle" className="w-full h-full">
-        {articleTitle} Lorem, ipsum dolor.
+        {articleTitle}
       </Link>
     </li>
   );

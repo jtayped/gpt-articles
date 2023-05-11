@@ -9,6 +9,8 @@ import withAuthentication from "../js/withAuthRedirect";
 import {
   getArticlesOrderedBy,
   getRandomArticles,
+  getTrendingArticles,
+  createArticle,
 } from "../js/firebaseFunctions";
 
 // Firebase
@@ -27,18 +29,24 @@ const Home = () => {
   useEffect(() => {
     setLoadingArticles(true);
 
-    getArticlesOrderedBy("likes", 3).then((articles) => {
+    getArticlesOrderedBy("likes", 3, false).then((articles) => {
       setMostLikedArticles(articles);
     });
-    getArticlesOrderedBy("timestamp", 3).then((articles) => {
+    getArticlesOrderedBy("timestamp", 3, false).then((articles) => {
       setRecentArticles(articles);
-      setLoadingArticles(false);
+    });
+
+    getTrendingArticles(3).then((articles) => {
+      setTrendingArticles(articles);
     });
 
     getRandomArticles(3).then((articles) => {
-      setTrendingArticles(articles);
       setDiscoveryArticles(articles);
+    });
+
+    getRandomArticles(3).then((articles) => {
       setFollowingArticles(articles);
+      setLoadingArticles(false);
     });
   }, []);
 

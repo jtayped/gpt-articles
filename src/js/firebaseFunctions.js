@@ -29,10 +29,14 @@ export const createArticle = async (userId, title) => {
   }
 };
 
-export const getArticlesOrderedBy = async (orderedBy, nArticles) => {
+export const getArticlesOrderedBy = async (orderedBy, nArticles, ascending) => {
   return new Promise((resolve, reject) => {
     const articlesCollection = collection(db, "articles");
-    const q = query(articlesCollection, orderBy(orderedBy), limit(nArticles));
+    const q = query(
+      articlesCollection,
+      orderBy(orderedBy, ascending ? "asc" : "desc"),
+      limit(nArticles)
+    );
     getDocs(q)
       .then((querySnapshot) => {
         const articles = querySnapshot.docs.map((doc) => ({
@@ -45,6 +49,32 @@ export const getArticlesOrderedBy = async (orderedBy, nArticles) => {
       .catch((error) => {
         reject(error);
       });
+  });
+};
+
+export const getTrendingArticles = async (nArticles) => {
+  return new Promise(async (resolve, reject) => {
+    const articlesCollection = collection(db, "/articles");
+    const q = query(articlesCollection, orderBy("likes", "desc"), limit(100));
+    getDocs(q)
+      .then((querySnapshot) => {
+        const articles = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        const timeNow = Date.now();
+        articles.forEach((article) => {
+          const likedAt = article.likedAt.toMillis();
+          const elapsedTime = timeNow - likedAt;
+          const likesPerMillisecond = article.likes / elapsedTime;
+          article.trendingScore = likesPerMillisecond;
+
+          articles.sort((a, b) => b.trendingScore - a.trendingScore);
+          resolve(articles);
+        });
+      })
+      .catch((error) => reject(error));
   });
 };
 
