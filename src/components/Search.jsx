@@ -13,15 +13,15 @@ const Search = () => {
   }
 
   return (
-    <div className="absolute bottom-0 left-0 w-full h-[125px] border-t dark:border-white/20 md:bg-vert-light-gradient bg-white dark:bg-gpt-400 dark:md:bg-vert-dark-gradient pt-2">
+    <div className="absolute bottom-0 left-0 w-full border-t md:border-t-0 dark:border-white/20 md:border-transparent md:dark:border-transparent md:bg-vert-light-gradient bg-white dark:bg-gray-800 md:!bg-transparent dark:md:bg-vert-dark-gradient pt-2">
       <form
         action="searchForArticles"
-        className="mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
+        className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"
       >
         <div className="relative flex h-full flex-1 items-stretch md:flex-col">
           <div className="flex flex-col items-center w-full py-2 flex-grow md:py-3 md:pl-4 relative border border-black/10 bg-white dark:border-gpt-500/50 dark:text-white dark:bg-gpt-100 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] pr-4">
             <textarea
-              className="w-full resize-none border-0 bg-transparent focus:outline-none pl-3 pb-2 pr-7 focus:ring-0 focus-visible:ring-0 dark:bg-transparent md:pl-0 placeholder:text-lg"
+              className="m-0 w-full resize-none placeholder:text-[17px] text-[17px] placeholder:font-light border-0 bg-transparent p-0 pr-7 focus:ring-0 focus:outline-none focus-visible:ring-0 dark:bg-transparent pl-2 md:pl-0 max-h-[200px] h-[24px] overflow-y-hidden"
               rows="1"
               placeholder="Search..."
               onChange={(e) => setSearchValue(e.target.value)}
