@@ -5,42 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // JSX Elements
 import { Home, Auth, LogIn, SignUp } from "./pages";
 
-// Firebase
-import { auth } from "./config/firebase";
-import { LoadingMessage } from "./components";
-
 function App() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [dots, setDots] = useState("..");
-
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setIsLoading(false);
-    });
-    return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setDots((prevDots) => {
-        if (prevDots === "...") {
-          return "";
-        } else {
-          return prevDots + ".";
-        }
-      });
-    }, 225);
-    return () => clearTimeout(timer);
-  }, [dots]);
-
-  if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex justify-center items-center">
-        <LoadingMessage message="Loading" centered={true} />
-      </div>
-    );
-  }
-
   return (
     <BrowserRouter>
       <Routes>
