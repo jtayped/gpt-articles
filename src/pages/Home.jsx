@@ -12,13 +12,14 @@ import {
   getRandomArticles,
   getTrendingArticles,
   getUserData,
+  retrieveUserArticles,
 } from "../js/firebaseFunctions";
 
 // Firebase
 import { auth } from "../config/firebase";
 
 const Home = () => {
-  const [isLoadingArticles, setLoadingArticles] = useState(true);
+  const [isLoading, setLoading] = useState(true);
 
   const [mostLikedArticles, setMostLikedArticles] = useState([]);
   const [recentArticles, setRecentArticles] = useState([]);
@@ -27,9 +28,16 @@ const Home = () => {
   const [discoveryArticles, setDiscoveryArticles] = useState([]);
   const [followingArticles, setFollowingArticles] = useState([]);
 
+  const [userData, setUserData] = useState({});
+
   useEffect(() => {
-    //createUser("jtayped", "Joel", "Taylor");
-    setLoadingArticles(true);
+    setLoading(true);
+
+    if (auth.currentUser.uid) {
+      getUserData(auth.currentUser.uid).then((userData) => {
+        setUserData(userData);
+      });
+    }
 
     getArticlesOrderedBy("likes", 3, false).then((articles) => {
       setMostLikedArticles(articles);
@@ -48,7 +56,7 @@ const Home = () => {
 
     getRandomArticles(3).then((articles) => {
       setFollowingArticles(articles);
-      setLoadingArticles(false);
+      setLoading(false);
     });
   }, []);
 
@@ -60,7 +68,7 @@ const Home = () => {
             <SideBar
               recentArticles={recentArticles}
               mostLikedArticles={mostLikedArticles}
-              isLoadingArticles={isLoadingArticles}
+              isLoading={isLoading}
             />
           </div>
           <div className="flex md:hidden w-screen h-10">
@@ -70,7 +78,7 @@ const Home = () => {
             trendingArticles={trendingArticles}
             discoveryArticles={discoveryArticles}
             followingArticles={followingArticles}
-            isLoadingArticles={isLoadingArticles}
+            isLoading={isLoading}
           />
         </div>
       ) : null}

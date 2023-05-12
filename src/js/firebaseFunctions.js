@@ -9,15 +9,18 @@ import {
   getDocs,
   startAt,
   getDoc,
+  where,
 } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 
-export const createArticle = async (userId, title) => {
+export const createArticle = async (userId, title, article) => {
   try {
-    const articleRef = doc(db, "articles", userId + "_" + title);
+    const articleRef = doc(db, "/articles");
 
     const newArticle = {
       title: title,
+      article: article,
+      userID: userId,
       likes: 0,
       dislikes: 0,
       timestamp: serverTimestamp(),
@@ -111,28 +114,70 @@ export const getRandomArticles = async (nArticles) => {
 
 export const createUser = async (username, firstName, lastName) => {
   try {
-    const usersRef = doc(db, "/users", username);
+    const userRef = doc(db, "/users", auth.currentUser.uid);
 
-    const newUser = {
-      username: username,
-      firstName: firstName,
-      lastName: lastName,
-      following: [],
-      likedPosts: [],
-      timestamp: serverTimestamp(),
-    };
+    const userCollection = collection(db, "/users");
+    const q = query(userCollection, where("username", "==", username));
+    const usersWithUsername = await getDocs(q);
 
-    // Set the new article document in the specified path
-    await setDoc(usersRef, newUser);
-    console.log("User created!");
+    if (!usersWithUsername.empty) {
+      console.error("Username taken!");
+    } else {
+      const newUser = {
+        username: username,
+        firstName: firstName,
+        lastName: lastName,
+        following: [],
+        followers: [],
+        likedPosts: [],
+        timestamp: serverTimestamp(),
+      };
+
+      // Set the new article document in the specified path
+      await setDoc(userRef, newUser);
+      console.log("User created!");
+    }
   } catch (error) {
     console.error(error);
   }
 };
 
 export const getUserData = async (userId) => {
-  const userRef = collection(db, "/users", userId);
-  const userData = await getDoc(userRef);
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userDoc = doc(db, "/users", userId);
+      const userData = await getDoc(userDoc);
 
-  console.log(userData.data());
+      if (userData.exists()) {
+        getDoc(userDoc)
+          .then((userData) => {
+            resolve(userData.data());
+          })
+          .catch((error) => console.error(error));
+      } else {
+        reject(new Error("User not found"));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  });
+};
+
+export const retrieveUserArticles = async (userId) => {
+  return new Promise(async (resolve, reject) => {
+    const articlesCollection = collection(db, "/articles");
+    const q = query(articlesCollection, where("userID", "==", userId));
+
+    getDocs(q)
+      .then((userArticles) => {
+        const cleanData = userArticles.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        resolve(cleanData);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 };
