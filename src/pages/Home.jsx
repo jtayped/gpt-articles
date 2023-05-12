@@ -7,12 +7,11 @@ import { SideBar, MobileHeader, HomeMain } from "../containers";
 // JS
 import withAuthentication from "../js/withAuthRedirect";
 import {
-  createUser,
   getArticlesOrderedBy,
   getRandomArticles,
   getTrendingArticles,
   getUserData,
-  getUserArticles,
+  getFollowingArticles,
 } from "../js/firebaseFunctions";
 
 // Firebase
@@ -54,20 +53,11 @@ const Home = () => {
       setDiscoveryArticles(articles);
     });
 
-    // const followingArticlesTemp = [];
-    // console.log(userData.following);
-    // userData.following.map((userId) => {
-    //   getUserArticles(userId).then((userArticles) => {
-    //     followingArticlesTemp.push(userArticles);
-    //   });
-    // });
-    // setFollowingArticles(followingArticlesTemp);
-
-    getRandomArticles(3).then((articles) => {
+    getFollowingArticles(3, userData.following).then((articles) => {
       setFollowingArticles(articles);
       setLoading(false);
     });
-  }, []);
+  }, [userData.following]);
 
   return (
     <>

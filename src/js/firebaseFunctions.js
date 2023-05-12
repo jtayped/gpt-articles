@@ -164,18 +164,24 @@ export const getUserData = async (userId) => {
   });
 };
 
-export const getUserArticles = async (userId) => {
+export const getFollowingArticles = async (nArticles, userIDs) => {
   return new Promise(async (resolve, reject) => {
-    const articlesCollection = collection(db, "/articles");
-    const q = query(articlesCollection, where("userID", "==", userId));
+    const articleCollection = collection(db, "/articles");
+    ///console.log(userIDs)
+    const q = query(
+      articleCollection,
+      where("userID", "in", userIDs),
+      orderBy("timestamp", "desc"),
+      limit(nArticles)
+    );
 
     getDocs(q)
-      .then((userArticles) => {
-        const cleanData = userArticles.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        resolve(cleanData);
+      .then((querySnapshot) => {
+        const articles = [];
+        querySnapshot.forEach((doc) => {
+          articles.push(doc.data());
+        });
+        resolve(articles);
       })
       .catch((error) => {
         reject(error);
