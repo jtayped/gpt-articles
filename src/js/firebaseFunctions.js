@@ -65,13 +65,13 @@ export const getTrendingArticles = async (nArticles) => {
 
         const timeNow = Date.now();
         articles.forEach((article) => {
-          const likedAt = article.likedAt.toMillis();
+          const likedAt = article.timestamp;
           const elapsedTime = timeNow - likedAt;
           const likesPerMillisecond = article.likes / elapsedTime;
           article.trendingScore = likesPerMillisecond;
 
           articles.sort((a, b) => b.trendingScore - a.trendingScore);
-          resolve(articles);
+          resolve(articles.slice(0, 3));
         });
       })
       .catch((error) => reject(error));
