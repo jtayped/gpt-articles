@@ -7,10 +7,11 @@ import { SideBar, MobileHeader, HomeMain } from "../containers";
 // JS
 import withAuthentication from "../js/withAuthRedirect";
 import {
+  createUser,
   getArticlesOrderedBy,
   getRandomArticles,
   getTrendingArticles,
-  createArticle,
+  getUserData,
 } from "../js/firebaseFunctions";
 
 // Firebase
@@ -27,6 +28,7 @@ const Home = () => {
   const [followingArticles, setFollowingArticles] = useState([]);
 
   useEffect(() => {
+    //createUser("jtayped", "Joel", "Taylor");
     setLoadingArticles(true);
 
     getArticlesOrderedBy("likes", 3, false).then((articles) => {

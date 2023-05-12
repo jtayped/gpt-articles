@@ -8,6 +8,7 @@ import {
   limit,
   getDocs,
   startAt,
+  getDoc,
 } from "firebase/firestore";
 import { db } from "../config/firebase";
 
@@ -106,4 +107,32 @@ export const getRandomArticles = async (nArticles) => {
         reject(error);
       });
   });
+};
+
+export const createUser = async (username, firstName, lastName) => {
+  try {
+    const usersRef = doc(db, "/users", username);
+
+    const newUser = {
+      username: username,
+      firstName: firstName,
+      lastName: lastName,
+      following: [],
+      likedPosts: [],
+      timestamp: serverTimestamp(),
+    };
+
+    // Set the new article document in the specified path
+    await setDoc(usersRef, newUser);
+    console.log("User created!");
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getUserData = async (userId) => {
+  const userRef = collection(db, "/users", userId);
+  const userData = await getDoc(userRef);
+
+  console.log(userData.data());
 };
