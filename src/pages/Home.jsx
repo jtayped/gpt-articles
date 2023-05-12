@@ -12,7 +12,7 @@ import {
   getRandomArticles,
   getTrendingArticles,
   getUserData,
-  retrieveUserArticles,
+  getUserArticles,
 } from "../js/firebaseFunctions";
 
 // Firebase
@@ -54,6 +54,15 @@ const Home = () => {
       setDiscoveryArticles(articles);
     });
 
+    // const followingArticlesTemp = [];
+    // console.log(userData.following);
+    // userData.following.map((userId) => {
+    //   getUserArticles(userId).then((userArticles) => {
+    //     followingArticlesTemp.push(userArticles);
+    //   });
+    // });
+    // setFollowingArticles(followingArticlesTemp);
+
     getRandomArticles(3).then((articles) => {
       setFollowingArticles(articles);
       setLoading(false);
@@ -68,6 +77,7 @@ const Home = () => {
             <SideBar
               recentArticles={recentArticles}
               mostLikedArticles={mostLikedArticles}
+              userData={userData}
               isLoading={isLoading}
             />
           </div>

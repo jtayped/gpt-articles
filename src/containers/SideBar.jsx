@@ -74,7 +74,12 @@ const SideBarAccountOption = ({ name, icon, funct }) => {
   );
 };
 
-const SideBar = ({ recentArticles, mostLikedArticles, isLoadingArticles }) => {
+const SideBar = ({
+  recentArticles,
+  mostLikedArticles,
+  userData,
+  isLoadingArticles,
+}) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
   function toggleAccountOpts() {
@@ -140,14 +145,10 @@ const SideBar = ({ recentArticles, mostLikedArticles, isLoadingArticles }) => {
             </AnimatePresence>
             <SideBarAccountOption
               key="yourAccount"
-              name={auth.currentUser.displayName}
+              name={userData.username}
               icon={
                 <img
-                  src={
-                    auth.currentUser.photoURL
-                      ? auth.currentUser.photoURL
-                      : DefaultPFP
-                  }
+                  src={userData.photoURL ? userData.photoURL : DefaultPFP}
                   className="h-[20px] rounded-sm"
                   alt="Profile"
                 />

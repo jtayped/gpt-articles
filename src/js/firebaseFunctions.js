@@ -127,6 +127,7 @@ export const createUser = async (username, firstName, lastName) => {
         username: username,
         firstName: firstName,
         lastName: lastName,
+        photoURL: auth.currentUser.photoURL,
         following: [],
         followers: [],
         likedPosts: [],
@@ -163,7 +164,7 @@ export const getUserData = async (userId) => {
   });
 };
 
-export const retrieveUserArticles = async (userId) => {
+export const getUserArticles = async (userId) => {
   return new Promise(async (resolve, reject) => {
     const articlesCollection = collection(db, "/articles");
     const q = query(articlesCollection, where("userID", "==", userId));
