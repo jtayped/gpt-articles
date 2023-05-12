@@ -19,9 +19,10 @@ import { signOut } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 
 // Images
-import DefaultPFP from "../assets/defaultPFP.webp"
+import DefaultPFP from "../assets/defaultPFP.webp";
+import { LoadingMessage } from "../components";
 
-const SideBarArticle = ({ name, link }) => {
+const SideBarArticle = ({ title, link }) => {
   return (
     <li>
       <a
@@ -30,7 +31,7 @@ const SideBarArticle = ({ name, link }) => {
       >
         <FiMessageSquare size={16} />
         <div className="flex-1 text-ellipsis max-h-5 overflow-hidden break-all relative">
-          <p className="text-sm">{name}</p>
+          <p className="text-sm">{title}</p>
           <div className="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-gpt-500 group-hover:from-[#2A2B32]"></div>
         </div>
       </a>
@@ -38,17 +39,25 @@ const SideBarArticle = ({ name, link }) => {
   );
 };
 
-const SideBarSection = ({ title, articles, nArticles }) => {
+const SideBarSection = ({ title, articles, isLoadingArticles }) => {
   return (
     <li>
       <h3 className="h-9 pb-2 pt-3 px-3 text-xs text-gray-500 font-medium text-ellipsis overflow-hidden break-all">
         {title}
       </h3>
-      <ol>
-        {articles.slice(0, nArticles).map((article, index) => (
-          <SideBarArticle key={index} name={article.name} link={article.link} />
-        ))}
-      </ol>
+      {isLoadingArticles ? (
+        <LoadingMessage message={`Loading ${title}`} centered={false} />
+      ) : (
+        <ol>
+          {articles.map((article, index) => (
+            <SideBarArticle
+              key={index}
+              title={article.title}
+              link={article.link}
+            />
+          ))}
+        </ol>
+      )}
     </li>
   );
 };
@@ -65,34 +74,12 @@ const SideBarAccountOption = ({ name, icon, funct }) => {
   );
 };
 
-const SideBar = () => {
-  const tempArticles = [
-    { name: "Legal issues in copying", link: "/linktoarticle" },
-    { name: "GPT Article Website", link: "/linktoarticle" },
-    { name: "Adding .then() to function", link: "/linktoarticle" },
-    { name: "Firebase Twitter-like functions", link: "/linktoarticle" },
-    { name: "React Router Issue", link: "/linktoarticle" },
-    { name: "SEO Expert Meta Descriptions", link: "/linktoarticle" },
-    { name: "Subordinadas y sus tipos", link: "/linktoarticle" },
-    { name: "Cook eggs thoroughly", link: "/linktoarticle" },
-    { name: "Unique Social Media Ideas", link: "/linktoarticle" },
-    { name: "Analizando Oraciones en Español", link: "/linktoarticle" },
-    { name: "Introduction to Machine Learning", link: "/linktoarticle" },
-    { name: "Data Encryption Techniques", link: "/linktoarticle" },
-    { name: "Best Practices for Code Documentation", link: "/linktoarticle" },
-    { name: "Understanding API Authentication", link: "/linktoarticle" },
-    { name: "Effective Time Management Strategies", link: "/linktoarticle" },
-    { name: "Introduction to Neural Networks", link: "/linktoarticle" },
-    { name: "Creating Responsive Web Designs", link: "/linktoarticle" },
-    { name: "Mastering CSS Grid Layouts", link: "/linktoarticle" },
-    { name: "Beginner's Guide to Python Programming", link: "/linktoarticle" },
-    {
-      name: "Design Principles for Mobile Applications",
-      link: "/linktoarticle",
-    },
-    { name: "Optimizing Website Performance", link: "/linktoarticle" },
-  ];
-
+const SideBar = ({
+  recentArticles,
+  mostLikedArticles,
+  userData,
+  isLoadingArticles,
+}) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
   function toggleAccountOpts() {
@@ -127,14 +114,14 @@ const SideBar = () => {
             <SideBarSection
               key="recentSection"
               title="Recent"
-              articles={tempArticles}
-              nArticles={7}
+              articles={recentArticles}
+              isLoadingArticles={isLoadingArticles}
             />
             <SideBarSection
               key="mostLikedSection"
               title="Most Liked"
-              articles={tempArticles}
-              nArticles={20}
+              articles={mostLikedArticles}
+              isLoadingArticles={isLoadingArticles}
             />
           </ol>
         </div>
@@ -158,14 +145,10 @@ const SideBar = () => {
             </AnimatePresence>
             <SideBarAccountOption
               key="yourAccount"
-              name={auth.currentUser.displayName}
+              name={userData.username}
               icon={
                 <img
-                  src={
-                    auth.currentUser.photoURL
-                      ? auth.currentUser.photoURL
-                      : DefaultPFP
-                  }
+                  src={userData.photoURL ? userData.photoURL : DefaultPFP}
                   className="h-[20px] rounded-sm"
                   alt="Profile"
                 />

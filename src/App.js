@@ -7,6 +7,7 @@ import { Home, Auth, LogIn, SignUp } from "./pages";
 
 // Firebase
 import { auth } from "./config/firebase";
+import { LoadingMessage } from "./components";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +36,11 @@ function App() {
   if (isLoading) {
     return (
       <div className="w-screen h-screen flex justify-center items-center">
-        <p className="text-2xl sm:text-4xl w-[100px] text-white font-bold">
-          Loading{dots}
-        </p>
+        <LoadingMessage message="Loading" centered={true} />
       </div>
     );
   }
-  
+
   return (
     <BrowserRouter>
       <Routes>
