@@ -38,7 +38,7 @@ const Home = () => {
       });
     }
 
-    getArticlesOrderedBy("likes", 3, false).then((articles) => {
+    getArticlesOrderedBy("likeCount", 3, false).then((articles) => {
       setMostLikedArticles(articles);
     });
     getArticlesOrderedBy("timestamp", 3, false).then((articles) => {

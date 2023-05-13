@@ -72,7 +72,7 @@ const Aritcle = () => {
                   onClick={() => toggleReaction("like")}
                 >
                   {reaction === "like" ? <AiFillLike /> : <AiOutlineLike />}
-                  {article.likes}
+                  {article.likeCount}
                 </button>
               </li>
               <li>
@@ -85,7 +85,7 @@ const Aritcle = () => {
                   ) : (
                     <AiOutlineDislike />
                   )}
-                  {article.dislikes}
+                  {article.dislikeCount}
                 </button>
               </li>
               <li className="flex items-center gap-1">
