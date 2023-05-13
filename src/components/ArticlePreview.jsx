@@ -11,7 +11,7 @@ const ArticlePreview = ({ article }) => {
     <li className="bg-gpt-100 h-[60px] rounded-lg shadow-sm transition-transform duration-100 hover:scale-[102%]">
       <Link to="/linktoarticle" className="flex items-center gap-2 h-full">
         <img
-          src="https://images.unsplash.com/photo-1682687218147-9806132dc697?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1075&q=80"
+          src={article.coverURL}
           className="h-full w-[50px] object-cover rounded-l-lg"
           alt="Article Cover"
         />
