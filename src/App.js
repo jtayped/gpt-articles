@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 // JSX Elements
-import { Home, Auth, LogIn, SignUp, About } from "./pages";
+import { Home, Auth, LogIn, SignUp, About, Article } from "./pages";
 
 // Firebase
 import { auth } from "./config/firebase";
@@ -32,6 +32,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/about" element={<About />} />
+        <Route exact path="/articleTest" element={<Article/>} />
 
         <Route exact path="/auth" element={<Auth />} />
         <Route exact path="/auth/login" element={<LogIn />} />

@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 
-export const createArticle = async (userId, title, article) => {
+export const createArticle = async (userId, title, article, tags) => {
   try {
     const articleRef = doc(db, "/articles");
 
@@ -21,6 +21,7 @@ export const createArticle = async (userId, title, article) => {
       title: title,
       article: article,
       userID: userId,
+      tags: tags,
       likes: 0,
       dislikes: 0,
       timestamp: serverTimestamp(),
@@ -128,6 +129,7 @@ export const createUser = async (username, firstName, lastName) => {
         firstName: firstName,
         lastName: lastName,
         photoURL: auth.currentUser.photoURL,
+        badges: ["Newbie"],
         following: [],
         followers: [],
         likedPosts: [],
@@ -161,6 +163,29 @@ export const getUserData = async (userId) => {
     } catch (error) {
       console.error(error);
     }
+  });
+};
+
+export const getUserArticles = async (nArticles, userID) => {
+  return new Promise(async (resolve, reject) => {
+    const articleCollection = collection(db, "/articles");
+    ///console.log(userIDs)
+    const q = query(
+      articleCollection,
+      where("userID", "==", userID),
+      limit(nArticles)
+    );
+
+    getDocs(q)
+      .then((querySnapshot) => {
+        const articles = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        resolve(articles);
+      })
+      .catch((error) => reject(error));
   });
 };
 
