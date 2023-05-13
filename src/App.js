@@ -11,6 +11,7 @@ import { LoadingMessage } from "./components";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [testArticle, setTestArticle] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(() => {
@@ -32,7 +33,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/about" element={<About />} />
-        <Route exact path="/articleTest" element={<Article/>} />
+        <Route exact path="/testArticle" element={<Article />} />
 
         <Route exact path="/auth" element={<Auth />} />
         <Route exact path="/auth/login" element={<LogIn />} />

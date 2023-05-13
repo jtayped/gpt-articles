@@ -2,11 +2,19 @@
 import React, { useEffect, useState } from "react";
 
 // JS Functions
-import { getUserArticles, getUserData } from "../js/firebaseFunctions";
-import { ArticlePreview } from "../components";
+import {
+  getUserArticles,
+  getUserData,
+  followUser,
+} from "../js/firebaseFunctions";
 
 // JSX Elements
 import { Badge } from "../components";
+import { ArticlePreview } from "../components";
+
+// Icons
+import { FiUserPlus, FiUserX } from "react-icons/fi";
+import { auth } from "../config/firebase";
 
 const UserSideInfo = ({ userID }) => {
   const maxBadges = 3;
@@ -15,10 +23,14 @@ const UserSideInfo = ({ userID }) => {
 
   const [authorData, setAuthorData] = useState({});
   const [authorArticles, setAuthorArticles] = useState([]);
+
+  const [following, setFollowing] = useState(false);
+
   useEffect(() => {
     setLoading(true);
 
     getUserData(userID).then((userData) => {
+      setFollowing(userData.followers.includes(auth.currentUser.uid));
       setAuthorData(userData);
     });
 
@@ -27,7 +39,7 @@ const UserSideInfo = ({ userID }) => {
       setLoading(false);
     });
   }, [userID]);
-  
+
   return (
     <div
       className={`flex flex-col bg-gpt-200 min-w-[300px] rounded-lg shadow-xl ${
@@ -74,6 +86,31 @@ const UserSideInfo = ({ userID }) => {
               <p className="font-bold text-lg">Description</p>
               <p className="text-sm">{authorData.description}</p>
             </article>
+            {following ? (
+              <button
+                className="flex justify-center items-center gap-2 text-white text-sm bg-gpt-400 py-1 rounded"
+                onClick={() =>
+                  followUser(authorData.userID, false).then(() => {
+                    setFollowing(false);
+                  })
+                }
+              >
+                <FiUserX />
+                Following
+              </button>
+            ) : (
+              <button
+                className="flex justify-center items-center gap-2 text-black text-sm bg-gpt-50 py-1 rounded"
+                onClick={() =>
+                  followUser(authorData.userID, true).then(() => {
+                    setFollowing(true);
+                  })
+                }
+              >
+                <FiUserPlus />
+                Follow
+              </button>
+            )}
           </div>
           <hr />
           <div className="p-4">
