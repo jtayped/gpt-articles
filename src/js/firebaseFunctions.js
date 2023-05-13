@@ -25,6 +25,7 @@ export const createArticle = async (userId, title, article, tags) => {
       article: article,
       userID: userId,
       tags: tags,
+      comments: [],
       likes: 0,
       dislikes: 0,
       timestamp: serverTimestamp(),
@@ -251,19 +252,10 @@ export const followUser = async (userID, follow) => {
 };
 
 
-export const checkIfFollowingUser = async (userID) => {
+export const likeArticle = async (article) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const currentUserID = auth.currentUser.uid; // Get the current user's UID
-      const usersRef = collection("/users"); // Reference to the "users" collection
-
-      // Get the document of the current user
-      const currentUserDoc = await usersRef.doc(currentUserID).get();
-
-      // Check if the specified user's ID exists in the current user's "following" array
-      const isFollowing = currentUserDoc.data().following.includes(userID);
-
-      resolve(isFollowing); // Resolve the promise with the result
+      // Like or Dislike article
     } catch (error) {
       reject(error); // Reject the promise with the error if an error occurs
     }

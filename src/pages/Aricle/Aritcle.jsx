@@ -3,18 +3,27 @@ import React, { useState, useEffect } from "react";
 
 // JSX Elements
 import { UserSideInfo } from "../../containers";
-import {Badge} from "../../components"
+import { Badge, LoadingMessage } from "../../components";
 
 // JS
 import { getRandomArticles } from "../../js/firebaseFunctions";
 
 // CSS
 import "./article.css";
-import { LoadingMessage } from "../../components";
+
+// Icons
+import { FiMessageCircle } from "react-icons/fi";
+import {
+  AiFillDislike,
+  AiFillLike,
+  AiOutlineDislike,
+  AiOutlineLike,
+} from "react-icons/ai";
 
 const Aritcle = () => {
   const [loading, setLoading] = useState({});
   const [article, setTestArticle] = useState({});
+  const [reaction, setReaction] = useState(null);
 
   useEffect(() => {
     setLoading(true);
@@ -36,6 +45,15 @@ const Aritcle = () => {
     return date.toLocaleString(undefined, options);
   };
 
+  const toggleReaction = (newReaction) => {
+    setReaction((prevReaction) => {
+      if (newReaction === prevReaction) {
+        return null; // Undo reaction if it's the same as the previous one
+      }
+      return newReaction;
+    });
+  };
+
   return (
     <main
       className={`w-full h-full flex justify-center text-white ${
@@ -47,7 +65,34 @@ const Aritcle = () => {
       ) : (
         <div className="max-w-[1000px] mt-[100px]">
           <header className="relative border-b-[1px] p-5">
-            <div className="absolute bottom-0 right-0"></div>
+            <ul className="absolute bottom-5 right-10 flex gap-5">
+              <li>
+                <button
+                  className="flex items-center gap-1"
+                  onClick={() => toggleReaction("like")}
+                >
+                  {reaction === "like" ? <AiFillLike /> : <AiOutlineLike />}
+                  {article.likes}
+                </button>
+              </li>
+              <li>
+                <button
+                  className="flex items-center gap-1"
+                  onClick={() => toggleReaction("dislike")}
+                >
+                  {reaction === "dislike" ? (
+                    <AiFillDislike />
+                  ) : (
+                    <AiOutlineDislike />
+                  )}
+                  {article.dislikes}
+                </button>
+              </li>
+              <li className="flex items-center gap-1">
+                <FiMessageCircle />
+                {article.comments["length"]}
+              </li>
+            </ul>
             <div className="flex gap-3">
               <img
                 src={article.coverURL ? article.coverURL : null}
