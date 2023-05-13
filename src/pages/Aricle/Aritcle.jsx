@@ -19,6 +19,7 @@ import {
   AiOutlineDislike,
   AiOutlineLike,
 } from "react-icons/ai";
+import { auth } from "../../config/firebase";
 
 const Aritcle = () => {
   const [loading, setLoading] = useState({});
@@ -28,7 +29,17 @@ const Aritcle = () => {
   useEffect(() => {
     setLoading(true);
     getRandomArticles(1).then((articles) => {
-      setTestArticle(articles[0]);
+      const article = articles[0];
+      const currentUserID = auth.currentUser.uid;
+      setTestArticle(article);
+
+      if (article.likes.includes(currentUserID)) {
+        setReaction(true);
+      } else if (article.dislikes.includes(currentUserID)) {
+        setReaction(false);
+      } else {
+        setReaction(null);
+      }
       setLoading(false);
     });
   }, []);
