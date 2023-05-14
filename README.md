@@ -65,7 +65,7 @@ Welcome to GPT Articles, a website where you can search for articles that have b
 
 ## About The Project
 
-[![Product Name Screen Shot][product-idea]](https://example.com)
+[![Product Name Screen Shot][product-idea]](https://github.com/jtayped/gpt-articles)
 
 This is a rough draft of how the main page for the website will look. You might recognize it as the original Chat GPT website: [https://chat.openai.com](chat.openai.com)
 
