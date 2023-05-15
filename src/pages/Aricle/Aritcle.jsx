@@ -6,13 +6,17 @@ import { UserSideInfo } from "../../containers";
 import { Badge, LoadingMessage } from "../../components";
 
 // JS
-import { getRandomArticles } from "../../js/firebaseFunctions";
+import {
+  createArticle,
+  getRandomArticles,
+  likeArticle,
+} from "../../js/firebaseFunctions";
 
 // CSS
 import "./article.css";
 
 // Icons
-import { FiMessageCircle } from "react-icons/fi";
+import { FiAperture, FiMessageCircle } from "react-icons/fi";
 import {
   AiFillDislike,
   AiFillLike,
@@ -65,6 +69,38 @@ const Aritcle = () => {
     });
   };
 
+  const handleLike = async () => {
+    const currentUserID = auth.currentUser.uid;
+    let newReaction = null;
+
+    if (reaction !== true) {
+      newReaction = true;
+    }
+
+    try {
+      await likeArticle(article.articleID, newReaction, newReaction === null);
+      setReaction(newReaction);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDislike = async () => {
+    const currentUserID = auth.currentUser.uid;
+    let newReaction = null;
+
+    if (reaction !== false) {
+      newReaction = false;
+    }
+
+    try {
+      await likeArticle(article.articleID, newReaction, newReaction === null);
+      setReaction(newReaction);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <main
       className={`h-full flex justify-center text-white pl-[260px] ${
@@ -80,18 +116,18 @@ const Aritcle = () => {
               <li>
                 <button
                   className="flex items-center gap-1"
-                  onClick={() => toggleReaction("like")}
+                  onClick={() => handleLike}
                 >
-                  {reaction === "like" ? <AiFillLike /> : <AiOutlineLike />}
+                  {reaction === true ? <AiFillLike /> : <AiOutlineLike />}
                   {article.likeCount}
                 </button>
               </li>
               <li>
                 <button
                   className="flex items-center gap-1"
-                  onClick={() => toggleReaction("dislike")}
+                  onClick={() => handleDislike}
                 >
-                  {reaction === "dislike" ? (
+                  {reaction === false ? (
                     <AiFillDislike />
                   ) : (
                     <AiOutlineDislike />
@@ -101,7 +137,7 @@ const Aritcle = () => {
               </li>
               <li className="flex items-center gap-1">
                 <FiMessageCircle />
-                {article.comments["length"]}
+                {article.comments.length}
               </li>
             </ul>
             <div className="flex gap-3">

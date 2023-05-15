@@ -13,23 +13,28 @@ import {
   arrayUnion,
   updateDoc,
   arrayRemove,
+  increment,
 } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
 import { v4 as uuidv4 } from "uuid";
 
-export const createArticle = async (userId, title, article, tags) => {
+export const createArticle = async (authorId, title, article, coverURL, tags) => {
   try {
-    const articleRef = doc(db, "/articles");
+    const articleID = uuidv4();
+    const articleRef = doc(db, "/articles", articleID);
 
     const newArticle = {
       title: title,
       article: article,
-      userID: userId,
-      articleID: uuidv4(),
+      authorID: authorId,
+      articleID: articleID,
+      coverURL: coverURL,
       tags: tags,
       comments: [],
-      likes: 0,
-      dislikes: 0,
+      likeCount: 0,
+      dislikeCount: 0,
+      likes: [],
+      dislikes: [],
       timestamp: serverTimestamp(),
     };
 
@@ -253,13 +258,46 @@ export const followUser = async (userID, follow) => {
   });
 };
 
-
-export const likeArticle = async (article) => {
+export const likeArticle = async (articleID, like, remove) => {
   return new Promise(async (resolve, reject) => {
     try {
-      // Like or Dislike article
+      const currentUserId = auth.currentUser.uid;
+
+      const articleRef = doc(db, "articles", articleID);
+      const articleDoc = await getDoc(articleRef);
+
+      if (articleDoc.exists()) {
+        if (like) {
+          if (remove) {
+            await updateDoc(articleDoc, {
+              likes: arrayRemove(currentUserId),
+              dislikes: increment(-1),
+            });
+          } else {
+            await updateDoc(articleDoc, {
+              likes: arrayUnion(currentUserId),
+              dislikes: increment(1),
+            });
+          }
+        } else {
+          if (remove) {
+            await updateDoc(articleDoc, {
+              dislikes: arrayRemove(currentUserId),
+              dislikes: increment(-1),
+            });
+          } else {
+            await updateDoc(articleDoc, {
+              dislikes: arrayUnion(currentUserId),
+              dislikes: increment(1),
+            });
+          }
+        }
+        resolve();
+      } else {
+        reject(new Error("Article not found"));
+      }
     } catch (error) {
-      reject(error); // Reject the promise with the error if an error occurs
+      reject(error);
     }
   });
 };
