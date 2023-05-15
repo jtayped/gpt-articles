@@ -8,7 +8,7 @@ import Badge from "./Badge";
 const ArticlePreview = ({ article }) => {
   const maxTags = 2;
   return (
-    <li className="bg-gpt-100 h-[60px] rounded-lg shadow-sm transition-transform duration-100 hover:scale-[102%]">
+    <li className="bg-gpt-300 h-[60px] rounded-lg shadow-sm transition-transform duration-100 hover:scale-[101%]">
       <Link to="/linktoarticle" className="flex items-center gap-2 h-full">
         <img
           src={article.coverURL}
