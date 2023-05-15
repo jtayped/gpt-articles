@@ -15,6 +15,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { auth, db } from "../config/firebase";
+import { v4 as uuidv4 } from "uuid";
 
 export const createArticle = async (userId, title, article, tags) => {
   try {
@@ -24,6 +25,7 @@ export const createArticle = async (userId, title, article, tags) => {
       title: title,
       article: article,
       userID: userId,
+      articleID: uuidv4(),
       tags: tags,
       comments: [],
       likes: 0,
