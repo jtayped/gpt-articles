@@ -67,7 +67,7 @@ const Aritcle = () => {
 
   return (
     <main
-      className={`w-full h-full flex justify-center text-white ${
+      className={`h-full flex justify-center text-white pl-[260px] ${
         loading ? "h-screen flex justify-center items-center" : null
       }`}
     >

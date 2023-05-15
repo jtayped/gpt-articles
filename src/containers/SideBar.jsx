@@ -25,16 +25,16 @@ import { LoadingMessage } from "../components";
 const SideBarArticle = ({ title, link }) => {
   return (
     <li>
-      <a
-        href={link}
-        className="flex py-3 px-3 items-center gap-3 relative rounded-md hover:bg-[#2A2B32] cursor-pointer break-all )} )} hover:pr-4 bg-gpt-500 group"
+      <Link
+        to={link}
+        className="flex py-3 px-3 items-center gap-3 relative rounded-md text-white hover:bg-[#2A2B32] cursor-pointer break-all )} )} hover:pr-4 bg-gpt-500 group"
       >
         <FiMessageSquare size={16} />
         <div className="flex-1 text-ellipsis max-h-5 overflow-hidden break-all relative">
           <p className="text-sm">{title}</p>
           <div className="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-gpt-500 group-hover:from-[#2A2B32]"></div>
         </div>
-      </a>
+      </Link>
     </li>
   );
 };
@@ -97,7 +97,7 @@ const SideBar = ({
   }
 
   return (
-    <aside className="dark w-[260px] h-screen flex-shrink-0 flex-col overflow-x-hidden bg-gpt-500">
+    <aside className="fixed top-0 left-0 dark w-[260px] h-screen flex-shrink-0 flex-col overflow-x-hidden bg-gpt-500">
       <nav className="flex h-full w-full flex-col p-2">
         <Link
           to="/create"
