@@ -16,7 +16,7 @@ import { ArticlePreview } from "../components";
 import { FiUserPlus, FiUserX } from "react-icons/fi";
 import { auth } from "../config/firebase";
 
-const UserSideInfo = ({ userID }) => {
+const UserSideInfo = ({ authorID }) => {
   const maxBadges = 3;
   const maxArticles = 4;
   const [loading, setLoading] = useState(true);
@@ -29,16 +29,16 @@ const UserSideInfo = ({ userID }) => {
   useEffect(() => {
     setLoading(true);
 
-    getUserData(userID).then((userData) => {
+    getUserData(authorID).then((userData) => {
       setFollowing(userData.followers.includes(auth.currentUser.uid));
       setAuthorData(userData);
     });
 
-    getUserArticles(100, userID).then((userArticles) => {
+    getUserArticles(100, authorID).then((userArticles) => {
       setAuthorArticles(userArticles);
       setLoading(false);
     });
-  }, [userID]);
+  }, [authorID]);
 
   return (
     <div

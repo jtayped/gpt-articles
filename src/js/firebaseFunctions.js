@@ -18,7 +18,13 @@ import {
 import { auth, db } from "../config/firebase";
 import { v4 as uuidv4 } from "uuid";
 
-export const createArticle = async (authorId, title, article, coverURL, tags) => {
+export const createArticle = async (
+  authorId,
+  title,
+  article,
+  coverURL,
+  tags
+) => {
   try {
     const articleID = uuidv4();
     const articleRef = doc(db, "/articles", articleID);
@@ -177,16 +183,14 @@ export const getUserData = async (userId) => {
   });
 };
 
-export const getUserArticles = async (nArticles, userID) => {
+export const getUserArticles = async (nArticles, authorID) => {
   return new Promise(async (resolve, reject) => {
     const articleCollection = collection(db, "/articles");
-    ///console.log(userIDs)
     const q = query(
       articleCollection,
-      where("userID", "==", userID),
+      where("authorID", "==", authorID),
       limit(nArticles)
     );
-
     getDocs(q)
       .then((querySnapshot) => {
         const articles = querySnapshot.docs.map((doc) => ({
@@ -203,10 +207,9 @@ export const getUserArticles = async (nArticles, userID) => {
 export const getFollowingArticles = async (nArticles, userIDs) => {
   return new Promise(async (resolve, reject) => {
     const articleCollection = collection(db, "/articles");
-    ///console.log(userIDs)
     const q = query(
       articleCollection,
-      where("userID", "in", userIDs),
+      where("authorID", "in", userIDs),
       orderBy("timestamp", "desc"),
       limit(nArticles)
     );

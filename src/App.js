@@ -27,26 +27,26 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(false);
-      setLoggedIn(!!user);
+      setLoggedIn(user);
 
-      if (user) {
+      if (user.uid) {
         getUserData(user.uid).then((userData) => {
           setUserData(userData);
-        });
-        getArticlesOrderedBy("likeCount", 3, false).then((articles) => {
-          setMostLikedArticles(articles);
-        });
-        getArticlesOrderedBy("timestamp", 3, false).then((articles) => {
-          setRecentArticles(articles);
-        });
-        getTrendingArticles(3).then((articles) => {
-          setTrendingArticles(articles);
-        });
-        getRandomArticles(3).then((articles) => {
-          setDiscoveryArticles(articles);
-        });
-        getFollowingArticles(3, userData.following).then((articles) => {
-          setFollowingArticles(articles);
+          getArticlesOrderedBy("likeCount", 3, false).then((articles) => {
+            setMostLikedArticles(articles);
+          });
+          getArticlesOrderedBy("timestamp", 3, false).then((articles) => {
+            setRecentArticles(articles);
+          });
+          getTrendingArticles(3).then((articles) => {
+            setTrendingArticles(articles);
+          });
+          getRandomArticles(3).then((articles) => {
+            setDiscoveryArticles(articles);
+          });
+          getFollowingArticles(3, userData.following).then((articles) => {
+            setFollowingArticles(articles);
+          });
         });
       }
     });

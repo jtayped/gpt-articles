@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 
 // JSX Elements
 import { UserSideInfo } from "../../containers";
-import { Badge, LoadingMessage } from "../../components";
+import { Badge, LoadingMessage, NewsLetter } from "../../components";
 
 // JS
 import {
@@ -110,7 +110,7 @@ const Aritcle = () => {
       {loading ? (
         <LoadingMessage message="Loading Article" />
       ) : (
-        <div className="max-w-[1000px] mt-[100px]">
+        <div className="max-w-[1000px] mt-10 2xl:mt-[100px]">
           <header className="relative border-b-[1px] p-5">
             <ul className="absolute bottom-5 right-10 flex gap-5">
               <li>
@@ -163,8 +163,11 @@ const Aritcle = () => {
           </header>
           <div className="flex gap-10 p-5">
             <article className="text-justify">{article.article}</article>
-            <aside>
-              {article.userID ? <UserSideInfo userID={article.userID} /> : null}
+            <aside className="flex flex-col gap-3">
+              {article.authorID ? (
+                <UserSideInfo authorID={article.authorID} />
+              ) : null}
+              <NewsLetter />
             </aside>
           </div>
         </div>
