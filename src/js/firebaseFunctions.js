@@ -274,24 +274,24 @@ export const likeArticle = async (articleID, like, remove) => {
           if (remove) {
             await updateDoc(articleDoc, {
               likes: arrayRemove(currentUserId),
-              dislikes: increment(-1),
+              likeCount: increment(-1),
             });
           } else {
             await updateDoc(articleDoc, {
               likes: arrayUnion(currentUserId),
-              dislikes: increment(1),
+              likeCount: increment(1),
             });
           }
         } else {
           if (remove) {
             await updateDoc(articleDoc, {
               dislikes: arrayRemove(currentUserId),
-              dislikes: increment(-1),
+              dislikeCount: increment(-1),
             });
           } else {
             await updateDoc(articleDoc, {
               dislikes: arrayUnion(currentUserId),
-              dislikes: increment(1),
+              dislikeCount: increment(1),
             });
           }
         }

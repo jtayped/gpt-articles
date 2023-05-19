@@ -63,17 +63,7 @@ const Aritcle = () => {
     return date.toLocaleString(undefined, options);
   };
 
-  const toggleReaction = (newReaction) => {
-    setReaction((prevReaction) => {
-      if (newReaction === prevReaction) {
-        return null; // Undo reaction if it's the same as the previous one
-      }
-      return newReaction;
-    });
-  };
-
   const handleLike = async () => {
-    const currentUserID = auth.currentUser.uid;
     let newReaction = null;
 
     if (reaction !== true) {
@@ -89,7 +79,6 @@ const Aritcle = () => {
   };
 
   const handleDislike = async () => {
-    const currentUserID = auth.currentUser.uid;
     let newReaction = null;
 
     if (reaction !== false) {
