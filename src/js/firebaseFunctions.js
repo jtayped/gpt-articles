@@ -15,8 +15,9 @@ import {
   arrayRemove,
   increment,
 } from "firebase/firestore";
-import { auth, db } from "../config/firebase";
+import { auth, db, storage } from "../config/firebase";
 import { v4 as uuidv4 } from "uuid";
+import { getDownloadURL, ref } from "firebase/storage";
 
 export const createArticle = async (
   authorId,
@@ -299,6 +300,21 @@ export const likeArticle = async (articleID, like, remove) => {
       } else {
         reject(new Error("Article not found"));
       }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getArticleFileURL = async (articleStorageID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const articleRef = ref(storage, `/articles/${articleStorageID}.md`);
+
+      getDownloadURL(articleRef).then((url) => {
+        console.log(url)
+        resolve(url);
+      });
     } catch (error) {
       reject(error);
     }
