@@ -8,15 +8,15 @@ import Badge from "./Badge";
 const ArticlePreview = ({ article }) => {
   const maxTags = 2;
   return (
-    <li className="bg-gpt-300 rounded-md shadow-sm transition-transform duration-100 hover:scale-[101%]">
+    <li className="bg-gpt-300 rounded-md shadow-sm transition-transform h-[60px] duration-100 hover:scale-[101%]">
       <Link to="/linktoarticle" className="flex items-center gap-2 h-full">
         <img
           src={article.coverURL}
-          className="h-full w-[50px] object-cover rounded-l-md"
+          className="h-[60px] w-[50px] object-cover rounded-l-md"
           alt="Article Cover"
         />
         <div className="my-2">
-          <p className="font-bold text-xs mr-10">{article.title}</p>
+          <p className="font-bold text-xs mr-10 line-clamp-2">{article.title}</p>
           <ul className="flex flex-wrap gap-x-1">
             {article.tags
               ? article.tags
