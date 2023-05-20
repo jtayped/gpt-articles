@@ -113,7 +113,7 @@ const UserInfo = ({ authorID }) => {
             )}
           </div>
           <hr />
-          <ul className="flex flex-col gap-2 p-4">
+          <ul className="flex flex-col gap-2 p-2">
             <ArticleGroup
               title="Popular Articles"
               articles={authorArticles.slice(0, maxArticles)}

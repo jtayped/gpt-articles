@@ -24,7 +24,7 @@ import {
   getTrendingArticles,
   getUserData,
   getFollowingArticles,
-  createArticle,
+  getAllArticles,
   createArticleLink,
 } from "./js/firebaseFunctions";
 
@@ -63,43 +63,18 @@ function App() {
           getFollowingArticles(3, userData.following).then((articles) => {
             setFollowingArticles(articles);
           });
+
+          getAllArticles().then((articles) => {
+            const articleRoutes = [];
+            articles.map((article) => {
+              createArticleLink(article).then((link) => {
+                articleRoutes.push(link);
+              });
+            });
+
+            setArticleRoutes(articleRoutes);
+          });
         });
-
-        const generateArticleRoutes = async (articles) => {
-          const routes = await Promise.all(
-            articles.map(async (article) => {
-              const link = await createArticleLink(article);
-              return link;
-            })
-          );
-          return routes;
-        };
-
-        const updateArticleRoutes = async () => {
-          const recentRoutes = await generateArticleRoutes(recentArticles);
-          const mostLikedRoutes = await generateArticleRoutes(
-            mostLikedArticles
-          );
-          const trendingRoutes = await generateArticleRoutes(trendingArticles);
-          const discoveryRoutes = await generateArticleRoutes(
-            discoveryArticles
-          );
-          const followingRoutes = await generateArticleRoutes(
-            followingArticles
-          );
-
-          const allRoutes = [
-            ...recentRoutes,
-            ...mostLikedRoutes,
-            ...trendingRoutes,
-            ...discoveryRoutes,
-            ...followingRoutes,
-          ];
-
-          setArticleRoutes(allRoutes);
-        };
-
-        updateArticleRoutes();
       }
     });
 
@@ -135,9 +110,12 @@ function App() {
             )
           }
         />
-        {articleRoutes.map((articleRoute) => (
-          <Route exact path={articleRoute} element={<Article />} />
-        ))}
+
+        {articleRoutes["lenght"] > 0
+          ? articleRoutes.map((route) => {
+              <Route exact path={route} element={<Article />} />;
+            })
+          : null}
         <Route exact path="/about" element={<About />} />
         <Route exact path="/testArticle" element={<Article />} />
         <Route exact path="/liked" element={<Development />} />

@@ -332,3 +332,21 @@ export const createArticleLink = async (article) => {
     }
   });
 };
+
+export const getAllArticles = async () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const articlesRef = collection(db, "articles");
+      const querySnapshot = await getDocs(articlesRef);
+
+      const articles = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      resolve(articles);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
