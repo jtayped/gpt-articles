@@ -4,3 +4,5 @@ export { default as LogIn } from "./LogIn";
 export { default as SignUp } from "./SignUp";
 export { default as About } from "./About";
 export { default as Article } from "./Aricle/Aritcle";
+export { default as Development } from "./Development";
+export { default as NotFound } from "./NotFound";

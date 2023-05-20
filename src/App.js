@@ -1,10 +1,22 @@
+// React Util
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import { Home, Auth, LogIn, SignUp, About, Article } from "./pages";
+// JSX Components
+import {
+  Home,
+  Auth,
+  LogIn,
+  SignUp,
+  About,
+  Article,
+  Development,
+  NotFound
+} from "./pages";
 import { SideBar, MobileHeader } from "./containers";
 import { LoadingMessage } from "./components";
 
+// Firebase
 import { auth } from "./config/firebase";
 import {
   getArticlesOrderedBy,
@@ -85,8 +97,10 @@ function App() {
         />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/testArticle" element={<Article />} />
+        <Route exact path="/liked" element={<Development />} />
         <Route exact path="/login" element={<LogIn />} />
         <Route exact path="/signup" element={<SignUp />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {isLoggedIn && (
         <SideBar
