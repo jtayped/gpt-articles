@@ -1,5 +1,5 @@
 // React Util
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // JSX Components
@@ -9,17 +9,28 @@ import { LoadingMessage } from "../components";
 // Icons
 import { FiTrendingUp, FiSun, FiSlack } from "react-icons/fi";
 
-const HomeMainSectionArticle = ({ articleTitle }) => {
+// Firebase
+import { createArticleLink } from "../js/firebaseFunctions";
+
+const HomeSectionArticle = ({ article }) => {
+  const [link, setLink] = useState("");
+
+  useEffect(() => {
+    createArticleLink(article).then((link) => {
+      setLink(link);
+    });
+  }, [article]);
+
   return (
     <li className="w-full p-3 bg-gpt-50 dark:bg-white/5 rounded-md hover:bg-gpt-100 dark:hover:bg-gpt-500">
-      <Link to="/linktoarticle" className="w-full h-full">
-        {articleTitle}
+      <Link to={link} className="w-full h-full">
+        {article.title}
       </Link>
     </li>
   );
 };
 
-const HomeMainSection = ({ title, icon, articles, isLoading }) => {
+const HomeSection = ({ title, icon, articles, isLoading }) => {
   return (
     <div className="flex flex-col mb-8 md:mb-auto gap-3.5 flex-1">
       <h2 className="flex gap-3 items-center m-auto text-lg font-normal md:flex-col md:gap-2">
@@ -31,10 +42,7 @@ const HomeMainSection = ({ title, icon, articles, isLoading }) => {
       ) : (
         <ul className="flex flex-col gap-3.5 w-full sm:max-w-md m-auto">
           {articles.map((article) => (
-            <HomeMainSectionArticle
-              key={article.title}
-              articleTitle={article.title}
-            />
+            <HomeSectionArticle key={article.title} article={article} />
           ))}
         </ul>
       )}
@@ -58,19 +66,19 @@ const Home = ({
               GPT Articles
             </h1>
             <div className="md:flex items-start text-center gap-3.5 mb-[1000px]">
-              <HomeMainSection
+              <HomeSection
                 title="Trending"
                 icon={<FiTrendingUp size={25} />}
                 articles={trendingArticles}
                 isLoading={isLoading}
               />
-              <HomeMainSection
+              <HomeSection
                 title="Discover"
                 icon={<FiSun size={25} />}
                 articles={discoveryArticles}
                 isLoading={isLoading}
               />
-              <HomeMainSection
+              <HomeSection
                 title="Following"
                 icon={<FiSlack size={25} />}
                 articles={followingArticles}

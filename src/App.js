@@ -11,7 +11,7 @@ import {
   About,
   Article,
   Development,
-  NotFound
+  NotFound,
 } from "./pages";
 import { SideBar, MobileHeader } from "./containers";
 import { LoadingMessage } from "./components";
@@ -24,6 +24,8 @@ import {
   getTrendingArticles,
   getUserData,
   getFollowingArticles,
+  createArticle,
+  createArticleLink,
 } from "./js/firebaseFunctions";
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
   const [discoveryArticles, setDiscoveryArticles] = useState([]);
   const [followingArticles, setFollowingArticles] = useState([]);
   const [userData, setUserData] = useState([]);
+
+  const [articleRoutes, setArticleRoutes] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -60,6 +64,42 @@ function App() {
             setFollowingArticles(articles);
           });
         });
+
+        const generateArticleRoutes = async (articles) => {
+          const routes = await Promise.all(
+            articles.map(async (article) => {
+              const link = await createArticleLink(article);
+              return link;
+            })
+          );
+          return routes;
+        };
+
+        const updateArticleRoutes = async () => {
+          const recentRoutes = await generateArticleRoutes(recentArticles);
+          const mostLikedRoutes = await generateArticleRoutes(
+            mostLikedArticles
+          );
+          const trendingRoutes = await generateArticleRoutes(trendingArticles);
+          const discoveryRoutes = await generateArticleRoutes(
+            discoveryArticles
+          );
+          const followingRoutes = await generateArticleRoutes(
+            followingArticles
+          );
+
+          const allRoutes = [
+            ...recentRoutes,
+            ...mostLikedRoutes,
+            ...trendingRoutes,
+            ...discoveryRoutes,
+            ...followingRoutes,
+          ];
+
+          setArticleRoutes(allRoutes);
+        };
+
+        updateArticleRoutes();
       }
     });
 
@@ -95,6 +135,9 @@ function App() {
             )
           }
         />
+        {articleRoutes.map((articleRoute) => (
+          <Route exact path={articleRoute} element={<Article />} />
+        ))}
         <Route exact path="/about" element={<About />} />
         <Route exact path="/testArticle" element={<Article />} />
         <Route exact path="/liked" element={<Development />} />

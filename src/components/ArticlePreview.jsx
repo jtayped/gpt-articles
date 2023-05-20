@@ -6,14 +6,14 @@ import { Link } from "react-router-dom";
 import { FiMessageSquare } from "react-icons/fi";
 
 // Firebase
-import { getUserData } from "../js/firebaseFunctions";
+import { createArticleLink } from "../js/firebaseFunctions";
 
 const ArticlePreview = ({ article }) => {
   const [link, setLink] = useState("");
 
   useEffect(() => {
-    getUserData(article.authorID).then((userData) => {
-      setLink(`/${userData.username}/${article.title.replace(/\s+/g, "-")}`);
+    createArticleLink(article).then((link) => {
+      setLink(link);
     });
   }, []);
   return (

@@ -312,8 +312,20 @@ export const getArticleFileURL = async (articleStorageID) => {
       const articleRef = ref(storage, `/articles/${articleStorageID}.md`);
 
       getDownloadURL(articleRef).then((url) => {
-        console.log(url)
+        console.log(url);
         resolve(url);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const createArticleLink = async (article) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      getUserData(article.authorID).then((userData) => {
+        resolve(`/${userData.username}/${article.title.replace(/\s+/g, "-")}`);
       });
     } catch (error) {
       reject(error);
