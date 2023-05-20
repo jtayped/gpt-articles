@@ -1,15 +1,25 @@
 // React Util
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // Icons
 import { FiMessageSquare } from "react-icons/fi";
 
+// Firebase
+import { getUserData } from "../js/firebaseFunctions";
+
 const ArticlePreview = ({ article }) => {
+  const [link, setLink] = useState("");
+
+  useEffect(() => {
+    getUserData(article.authorID).then((userData) => {
+      setLink(`/${userData.username}/${article.title.replace(/\s+/g, "-")}`);
+    });
+  }, []);
   return (
     <li>
       <Link
-        to="/linktoarticle"
+        to={link}
         className="flex py-3 px-3 items-center gap-3 relative rounded-md text-white hover:bg-[#2A2B32] cursor-pointer break-all )} )} hover:pr-4 bg-gpt-500 group"
       >
         <FiMessageSquare size={16} />
