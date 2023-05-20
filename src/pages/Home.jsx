@@ -3,7 +3,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 // JSX Components
-import { LoadingMessage, Search } from "../components";
+import { Search } from "../containers";
+import { LoadingMessage } from "../components";
 
 // Icons
 import { FiTrendingUp, FiSun, FiSlack } from "react-icons/fi";

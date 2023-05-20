@@ -10,15 +10,15 @@ import {
 
 // JSX Elements
 import { Badge } from "../components";
-import { ArticlePreview } from "../components";
+import { ArticleGroup } from ".";
 
 // Icons
 import { FiUserPlus, FiUserX } from "react-icons/fi";
 import { auth } from "../config/firebase";
 
-const UserSideInfo = ({ authorID }) => {
-  const maxBadges = 3;
-  const maxArticles = 4;
+const UserInfo = ({ authorID }) => {
+  const maxBadges = 2;
+  const maxArticles = 3;
   const [loading, setLoading] = useState(true);
 
   const [authorData, setAuthorData] = useState({});
@@ -113,25 +113,17 @@ const UserSideInfo = ({ authorID }) => {
             )}
           </div>
           <hr />
-          <div className="p-4">
-            <p className="font-bold text-lg">User Articles</p>
-            <ul className="flex flex-col gap-2">
-              {authorArticles.slice(0, maxArticles).map((article, index) => (
-                <ArticlePreview key={index} article={article} />
-              ))}
-              {authorArticles && authorArticles["length"] > maxBadges ? (
-                <li key={authorArticles["lenght"] + 1}>
-                  <p className="text-xs">
-                    +{authorArticles["length"] - maxArticles} more
-                  </p>
-                </li>
-              ) : null}
-            </ul>
-          </div>
+          <ul className="flex flex-col gap-2 p-4">
+            <ArticleGroup
+              title="Popular Articles"
+              articles={authorArticles.slice(0, maxArticles)}
+              isLoading={false}
+            />
+          </ul>
         </>
       )}
     </div>
   );
 };
 
-export default UserSideInfo;
+export default UserInfo;

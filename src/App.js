@@ -85,9 +85,8 @@ function App() {
         />
         <Route exact path="/about" element={<About />} />
         <Route exact path="/testArticle" element={<Article />} />
-        <Route exact path="/auth" element={<Auth />} />
-        <Route exact path="/auth/login" element={<LogIn />} />
-        <Route exact path="/auth/signup" element={<SignUp />} />
+        <Route exact path="/login" element={<LogIn />} />
+        <Route exact path="/signup" element={<SignUp />} />
       </Routes>
       {isLoggedIn && (
         <SideBar

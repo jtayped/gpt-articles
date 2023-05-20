@@ -3,13 +3,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Icons
-import {
-  FiMessageSquare,
-  FiSettings,
-  FiHeart,
-  FiLogOut,
-  FiPlus,
-} from "react-icons/fi";
+import { FiSettings, FiHeart, FiLogOut, FiPlus } from "react-icons/fi";
 
 // Firebase
 import { auth } from "../config/firebase";
@@ -20,47 +14,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // Images
 import DefaultPFP from "../assets/defaultPFP.webp";
-import { LoadingMessage } from "../components";
 
-const SideBarArticle = ({ title, link }) => {
-  return (
-    <li>
-      <Link
-        to={link}
-        className="flex py-3 px-3 items-center gap-3 relative rounded-md text-white hover:bg-[#2A2B32] cursor-pointer break-all )} )} hover:pr-4 bg-gpt-500 group"
-      >
-        <FiMessageSquare size={16} />
-        <div className="flex-1 text-ellipsis max-h-5 overflow-hidden break-all relative">
-          <p className="text-sm">{title}</p>
-          <div className="absolute inset-y-0 right-0 w-8 z-10 bg-gradient-to-l from-gpt-500 group-hover:from-[#2A2B32]"></div>
-        </div>
-      </Link>
-    </li>
-  );
-};
-
-const SideBarSection = ({ title, articles, isLoadingArticles }) => {
-  return (
-    <li>
-      <h3 className="h-9 pb-2 pt-3 px-3 text-xs text-gray-500 font-medium text-ellipsis overflow-hidden break-all">
-        {title}
-      </h3>
-      {isLoadingArticles ? (
-        <LoadingMessage message={`Loading ${title}`} centered={false} />
-      ) : (
-        <ol>
-          {articles.map((article, index) => (
-            <SideBarArticle
-              key={index}
-              title={article.title}
-              link={article.link}
-            />
-          ))}
-        </ol>
-      )}
-    </li>
-  );
-};
+// JSX Components
+import { ArticleGroup } from "./index";
 
 const SideBarAccountOption = ({ name, icon, funct }) => {
   return (
@@ -78,7 +34,7 @@ const SideBar = ({
   recentArticles,
   mostLikedArticles,
   userData,
-  isLoadingArticles,
+  isLoading,
 }) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
@@ -88,12 +44,10 @@ const SideBar = ({
 
   async function handleLogOut() {
     await signOut(auth);
-
-    navigate("/auth");
   }
 
   function navigateToLikedPosts() {
-    navigate("/likedPosts");
+    navigate("/liked");
   }
 
   return (
@@ -111,17 +65,17 @@ const SideBar = ({
             Articles
           </h2>
           <ol>
-            <SideBarSection
+            <ArticleGroup
               key="recentSection"
               title="Recent"
               articles={recentArticles}
-              isLoadingArticles={isLoadingArticles}
+              isLoading={isLoading}
             />
-            <SideBarSection
+            <ArticleGroup
               key="mostLikedSection"
               title="Most Liked"
               articles={mostLikedArticles}
-              isLoadingArticles={isLoadingArticles}
+              isLoading={isLoading}
             />
           </ol>
         </div>

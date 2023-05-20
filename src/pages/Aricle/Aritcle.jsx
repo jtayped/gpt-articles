@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 
 // JSX Elements
-import { UserSideInfo } from "../../containers";
+import { UserInfo } from "../../containers";
 import { Badge, LoadingMessage, NewsLetter } from "../../components";
 
 // JS
@@ -182,12 +182,7 @@ Data science empowers organizations to extract valuable insights from data, lead
                 {article.comments.length}
               </li>
             </ul>
-            <div className="flex gap-3">
-              <img
-                src={article.coverURL ? article.coverURL : null}
-                className="w-[150px] h-[100px] object-cover rounded-md"
-                alt="Article Cover"
-              />
+            <div>
               <div className="flex flex-col">
                 <h1 className="text-3xl font-bold">{article.title}</h1>
                 <p className="text-sm font-thin text-gpt-50">
@@ -206,12 +201,12 @@ Data science empowers organizations to extract valuable insights from data, lead
           <div className="flex gap-10 p-5">
             <article className="text-justify">
               <ReactMarkdown className="article">
-                {markdown}
+                {articleMarkdown}
               </ReactMarkdown>
             </article>
             <aside className="flex flex-col gap-3">
               {article.authorID ? (
-                <UserSideInfo authorID={article.authorID} />
+                <UserInfo authorID={article.authorID} />
               ) : null}
               <NewsLetter />
             </aside>
