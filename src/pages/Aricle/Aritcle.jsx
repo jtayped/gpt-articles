@@ -29,7 +29,6 @@ import { auth } from "../../config/firebase";
 import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
-import axios from "axios";
 
 const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
