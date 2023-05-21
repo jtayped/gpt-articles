@@ -30,7 +30,7 @@ import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
 
-const Aritcle = ({ articleInfo, articleRoutesInfo }) => {
+const Aritcle = ({ articleInfo, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
   const [loading, setLoading] = useState({});
@@ -208,7 +208,7 @@ Data science empowers organizations to extract valuable insights from data, lead
               {article.authorID ? (
                 <UserInfo
                   authorID={article.authorID}
-                  articleRoutesInfo={articleRoutesInfo}
+                  setArticleRoutesInfo={setArticleRoutesInfo}
                 />
               ) : null}
               <NewsLetter />

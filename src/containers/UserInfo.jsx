@@ -17,7 +17,7 @@ import { ArticleGroup } from ".";
 import { FiUserPlus, FiUserX } from "react-icons/fi";
 import { auth } from "../config/firebase";
 
-const UserInfo = ({ authorID, articleRoutesInfo }) => {
+const UserInfo = ({ authorID, setArticleRoutesInfo }) => {
   const maxBadges = 2;
   const maxArticles = 3;
   const [loading, setLoading] = useState(true);
@@ -36,8 +36,7 @@ const UserInfo = ({ authorID, articleRoutesInfo }) => {
     });
 
     getUserArticles(100, authorID).then((userArticles) => {
-      appendArticleRoutes(userArticles, articleRoutesInfo);
-      console.log("articles added side info user");
+      appendArticleRoutes(userArticles, setArticleRoutesInfo);
       
       setAuthorArticles(userArticles);
       setLoading(false);
