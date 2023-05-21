@@ -40,7 +40,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
   useEffect(() => {
     const currentUserID = auth.currentUser.uid;
 
-    getArticleFileURL(article.articleStorageID).then((url) => {
+    getArticleFileURL(article.articleID).then((url) => {
       fetch(url)
         .then((response) => {
           if (response.ok) {
