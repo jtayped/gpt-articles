@@ -30,7 +30,7 @@ import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
 
-const Aritcle = () => {
+const Aritcle = ({ articleInfo, articleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
   const [loading, setLoading] = useState({});
@@ -206,7 +206,10 @@ Data science empowers organizations to extract valuable insights from data, lead
             </article>
             <aside className="flex flex-col gap-3">
               {article.authorID ? (
-                <UserInfo authorID={article.authorID} />
+                <UserInfo
+                  authorID={article.authorID}
+                  articleRoutesInfo={articleRoutesInfo}
+                />
               ) : null}
               <NewsLetter />
             </aside>

@@ -6,6 +6,7 @@ import {
   getUserArticles,
   getUserData,
   followUser,
+  appendArticleRoutes,
 } from "../js/firebaseFunctions";
 
 // JSX Elements
@@ -16,7 +17,7 @@ import { ArticleGroup } from ".";
 import { FiUserPlus, FiUserX } from "react-icons/fi";
 import { auth } from "../config/firebase";
 
-const UserInfo = ({ authorID }) => {
+const UserInfo = ({ authorID, articleRoutesInfo }) => {
   const maxBadges = 2;
   const maxArticles = 3;
   const [loading, setLoading] = useState(true);
@@ -35,6 +36,9 @@ const UserInfo = ({ authorID }) => {
     });
 
     getUserArticles(100, authorID).then((userArticles) => {
+      appendArticleRoutes(userArticles, articleRoutesInfo);
+      console.log("articles added side info user");
+      
       setAuthorArticles(userArticles);
       setLoading(false);
     });

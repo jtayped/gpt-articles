@@ -79,7 +79,7 @@ function App() {
     <Route
       key={index}
       path={articleInfo.route}
-      element={<Article article={articleInfo.article} />}
+      element={<Article article={articleInfo.article} setArticleRoutesInfo={setArticleRoutesInfo}/>}
     />
   ));
 
