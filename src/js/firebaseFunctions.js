@@ -322,31 +322,36 @@ export const getArticleFileURL = async (articleStorageID) => {
 };
 
 export const createArticleLink = async (article) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      getUserData(article.authorID).then((userData) => {
-        resolve(`/${userData.username}/${article.title.replace(/\s+/g, "-")}`);
-      });
-    } catch (error) {
-      reject(error);
-    }
+  try {
+    const userData = await getUserData(article.authorID);
+    return `/${userData.username}/${article.title.replace(/\s+/g, "-")}`;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const appendArticleRoutes = async (articles, setArticleRoutes) => {
+  const updatedRoutes = await Promise.all(
+    articles.map(async (article) => {
+      const route = await createArticleLink(article);
+      return {
+        article: article,
+        route: route,
+      };
+    })
+  );
+
+  setArticleRoutes((prevRoutes) => {
+    // Filter out articles that have articleID already present in prevRoutes
+    const filteredRoutes = updatedRoutes.filter(
+      (updatedRoute) =>
+        !prevRoutes.some(
+          (prevRoute) =>
+            prevRoute.article.articleID === updatedRoute.article.articleID
+        )
+    );
+
+    return [...prevRoutes, ...filteredRoutes];
   });
 };
 
-export const getAllArticles = async () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const articlesRef = collection(db, "articles");
-      const querySnapshot = await getDocs(articlesRef);
-
-      const articles = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      resolve(articles);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};

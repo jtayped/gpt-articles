@@ -24,8 +24,8 @@ import {
   getTrendingArticles,
   getUserData,
   getFollowingArticles,
-  getAllArticles,
   createArticleLink,
+  appendArticleRoutes,
 } from "./js/firebaseFunctions";
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
   const [followingArticles, setFollowingArticles] = useState([]);
   const [userData, setUserData] = useState([]);
 
-  const [articleRoutes, setArticleRoutes] = useState([]);
+  const [articleRoutesInfo, setArticleRoutesInfo] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -50,36 +50,38 @@ function App() {
           setUserData(userData);
           getArticlesOrderedBy("likeCount", 3, false).then((articles) => {
             setMostLikedArticles(articles);
+            appendArticleRoutes(articles, setArticleRoutesInfo);
           });
           getArticlesOrderedBy("timestamp", 3, false).then((articles) => {
             setRecentArticles(articles);
+            appendArticleRoutes(articles, setArticleRoutesInfo);
           });
           getTrendingArticles(3).then((articles) => {
             setTrendingArticles(articles);
+            appendArticleRoutes(articles, setArticleRoutesInfo);
           });
           getRandomArticles(3).then((articles) => {
             setDiscoveryArticles(articles);
+            appendArticleRoutes(articles, setArticleRoutesInfo);
           });
           getFollowingArticles(3, userData.following).then((articles) => {
             setFollowingArticles(articles);
-          });
-
-          getAllArticles().then((articles) => {
-            const articleRoutes = [];
-            articles.map((article) => {
-              createArticleLink(article).then((link) => {
-                articleRoutes.push(link);
-              });
-            });
-
-            setArticleRoutes(articleRoutes);
+            appendArticleRoutes(articles, setArticleRoutesInfo);
           });
         });
       }
     });
 
     return unsubscribe;
-  }, []);
+  }, [setArticleRoutesInfo]);
+
+  const articleRoutes = articleRoutesInfo.map((articleInfo, index) => (
+    <Route
+      key={index}
+      path={articleInfo.route}
+      element={<Article article={articleInfo.article} />}
+    />
+  ));
 
   if (isLoading) {
     return (
@@ -88,7 +90,6 @@ function App() {
       </div>
     );
   }
-
   return (
     <BrowserRouter>
       {isLoggedIn && <MobileHeader />}
@@ -111,13 +112,9 @@ function App() {
           }
         />
 
-        {articleRoutes["lenght"] > 0
-          ? articleRoutes.map((route) => {
-              <Route exact path={route} element={<Article />} />;
-            })
-          : null}
+        {articleRoutes}
+
         <Route exact path="/about" element={<About />} />
-        <Route exact path="/testArticle" element={<Article />} />
         <Route exact path="/liked" element={<Development />} />
         <Route exact path="/login" element={<LogIn />} />
         <Route exact path="/signup" element={<SignUp />} />
