@@ -8,7 +8,6 @@ import {
   Auth,
   LogIn,
   SignUp,
-  About,
   Article,
   Development,
   NotFound,
@@ -24,7 +23,6 @@ import {
   getTrendingArticles,
   getUserData,
   getFollowingArticles,
-  createArticleLink,
   appendArticleRoutes,
 } from "./js/firebaseFunctions";
 
@@ -114,7 +112,7 @@ function App() {
 
         {articleRoutes}
 
-        <Route exact path="/about" element={<About />} />
+        <Route exact path="/create" element={<Development />} />
         <Route exact path="/liked" element={<Development />} />
         <Route exact path="/login" element={<LogIn />} />
         <Route exact path="/signup" element={<SignUp />} />
