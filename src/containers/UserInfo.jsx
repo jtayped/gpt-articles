@@ -64,7 +64,7 @@ const UserInfo = ({ authorID, setArticleRoutesInfo }) => {
               />
               <div className="flex flex-col h-full justify-center">
                 <p className="font-bold text-xl">
-                  {authorData.firstName} {authorData.lastName}
+                  {authorData.username}
                 </p>
                 <ul className="flex flex-wrap gap-x-1 gap-y-0.5">
                   {authorData.badges

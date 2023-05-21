@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import Logo from "../assets/vector/default-monochrome-black.svg";
 import Google from "../assets/vector/google.svg";
+import { createUser } from "../js/firebaseFunctions";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -62,8 +63,7 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
-      // The sign-in was successful, you can access the user information with `result.user`
+      signInWithPopup(auth, googleProvider)
       navigate("/");
     } catch (err) {
       setError("There has been an error, try again later!");
