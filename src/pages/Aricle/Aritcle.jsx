@@ -29,45 +29,46 @@ import { auth } from "../../config/firebase";
 import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
+import axios from "axios";
 
-const Aritcle = ({ articleInfo, setArticleRoutesInfo }) => {
+const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
-  const [loading, setLoading] = useState({});
-  const [article, setTestArticle] = useState({});
+  const [loading, setLoading] = useState(true);
   const [reaction, setReaction] = useState(null);
-
   const [markdown, setMarkdown] = useState("");
 
   useEffect(() => {
-    setLoading(true);
-    getRandomArticles(1).then((articles) => {
-      const article = articles[0];
-      const currentUserID = auth.currentUser.uid;
-      setTestArticle(article);
+    const currentUserID = auth.currentUser.uid;
 
-      getArticleFileURL(article.articleStorageID)
-        .then((url) =>
-          fetch(url, {
-            mode: "no-cors",
-          })
-        )
-        .then((response) => response.text())
-        .then((text) => {
-          const { data, content } = matter(text);
+    getArticleFileURL(article.articleStorageID).then((url) => {
+      fetch(url)
+        .then((response) => {
+          if (response.ok) {
+            return response.text();
+          } else {
+            throw new Error("Error: " + response.status);
+          }
+        })
+        .then((markdownText) => {
+          const content = matter(markdownText);
           setMarkdown(content);
         })
-        .catch((error) => console.error(error));
-
-      if (article.likes.includes(currentUserID)) {
-        setReaction(true);
-      } else if (article.dislikes.includes(currentUserID)) {
-        setReaction(false);
-      } else {
-        setReaction(null);
-      }
-      setLoading(false);
+        .catch((error) => {
+          console.error(error);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     });
+
+    if (article.likes.includes(currentUserID)) {
+      setReaction(true);
+    } else if (article.dislikes.includes(currentUserID)) {
+      setReaction(false);
+    } else {
+      setReaction(null);
+    }
   }, []);
 
   const formatTimestamp = (seconds) => {
@@ -112,41 +113,10 @@ const Aritcle = ({ articleInfo, setArticleRoutesInfo }) => {
     }
   };
 
-  const articleMarkdown = `# The Power of Data Science
-
-## Introduction
-Data science is a multidisciplinary field that combines statistical analysis, machine learning, and programming to extract valuable insights and knowledge from data. It plays a crucial role in various industries and domains, revolutionizing decision-making processes and driving innovation.
-
-## Data Science Process
-The data science process typically involves the following steps:
-1. **Data Collection**: Data scientists gather relevant data from various sources, including databases, APIs, and sensors. The quality and diversity of the data are crucial for accurate analysis and reliable results.
-2. **Data Cleaning and Preprocessing**: Raw data often contain errors, missing values, or inconsistencies. Data cleaning and preprocessing techniques are applied to ensure data quality, standardization, and compatibility for analysis.
-3. **Exploratory Data Analysis (EDA)**: EDA involves examining and visualizing the data to understand its characteristics, uncover patterns, and identify potential relationships between variables. This step helps in formulating hypotheses and guiding further analysis.
-4. **Feature Engineering**: Feature engineering involves selecting, transforming, and creating meaningful features from the available data. It aims to enhance the predictive power of machine learning models and improve their performance.
-5. **Model Building and Evaluation**: In this step, various machine learning algorithms are applied to the data to create predictive models. These models are trained and evaluated using appropriate evaluation metrics to assess their performance and generalization capability.
-6. **Deployment and Monitoring**: Once a satisfactory model is developed, it is deployed in a production environment. Regular monitoring is essential to ensure the model's performance and accuracy over time, making necessary updates and refinements as needed.
-
-## Applications of Data Science
-Data science has numerous applications across industries, including:
-- **Business Analytics**: Data science helps businesses analyze customer behavior, optimize marketing strategies, and make data-driven decisions to gain a competitive edge.
-- **Healthcare**: Data science plays a vital role in analyzing medical data, predicting disease outcomes, improving patient care, and facilitating medical research.
-- **Finance**: Data science enables financial institutions to detect fraud, assess risk, and make investment predictions using large-scale financial data analysis.
-- **Transportation**: Data science helps optimize transportation systems, improve traffic management, and enable efficient logistics and route planning.
-
-## Ethical Considerations and Challenges
-Data science raises important ethical considerations and challenges:
-- **Data Privacy and Security**: Safeguarding personal data and ensuring its secure handling and storage are paramount. Privacy regulations and ethical guidelines must be followed to protect individuals' privacy rights.
-- **Bias and Fairness**: Data scientists must be aware of potential biases in the data and algorithms used. Fairness, transparency, and accountability should be prioritized to prevent discrimination and ensure equitable outcomes.
-- **Interpretability and Explainability**: As models become more complex, the interpretability of their decisions becomes challenging. Ensuring transparency and explainability of algorithms is crucial, especially in critical domains like healthcare and justice.
-
-## Conclusion
-Data science empowers organizations to extract valuable insights from data, leading to better decision-making, improved efficiency, and enhanced innovation. Embracing ethical practices and addressing the challenges associated with data science can unlock its full potential and drive positive societal impact.
-`;
-
   return (
     <main
       className={`h-full flex justify-center text-white pl-[260px] ${
-        loading ? "h-screen flex justify-center items-center" : null
+        loading ? "h-screen flex justify-center items-center" : ""
       }`}
     >
       {loading ? (
@@ -158,7 +128,7 @@ Data science empowers organizations to extract valuable insights from data, lead
               <li>
                 <button
                   className="flex items-center gap-1"
-                  onClick={() => handleLike}
+                  onClick={handleLike}
                 >
                   {reaction === true ? <AiFillLike /> : <AiOutlineLike />}
                   {article.likeCount}
@@ -167,7 +137,7 @@ Data science empowers organizations to extract valuable insights from data, lead
               <li>
                 <button
                   className="flex items-center gap-1"
-                  onClick={() => handleDislike}
+                  onClick={handleDislike}
                 >
                   {reaction === false ? (
                     <AiFillDislike />
@@ -200,9 +170,7 @@ Data science empowers organizations to extract valuable insights from data, lead
           </header>
           <div className="flex gap-10 p-5">
             <article className="text-justify">
-              <ReactMarkdown className="article">
-                {articleMarkdown}
-              </ReactMarkdown>
+              <ReactMarkdown className="article">{markdown.content}</ReactMarkdown>
             </article>
             <aside className="flex flex-col gap-3">
               {article.authorID ? (
@@ -220,4 +188,4 @@ Data science empowers organizations to extract valuable insights from data, lead
   );
 };
 
-export default Aritcle;
+export default Article;
