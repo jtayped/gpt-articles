@@ -1,5 +1,5 @@
 // React Markdown
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // JSX Elements
 import { UserInfo } from "../../containers";
@@ -30,12 +30,37 @@ import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
 
+let timer;
+let cursorTimer;
 const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
   const [loading, setLoading] = useState(true);
   const [reaction, setReaction] = useState(null);
   const [markdown, setMarkdown] = useState("");
+
+  const [text, setText] = useState("");
+  const [showCursor, setShowCursor] = useState(true);
+  const cursorRef = useRef(null);
+
+  useEffect(() => {
+    function typeText() {
+      let i = -1;
+      timer = setInterval(() => {
+        i++;
+        if (i === markdown.content.length - 1) clearInterval(timer);
+        setText((prev) => prev + markdown.content[i]);
+      }, 0.01);
+
+      cursorTimer = setInterval(() => {
+        setShowCursor((prev) => !prev);
+      }, 500);
+    }
+
+    if (!loading) {
+      typeText();
+    }
+  }, [loading, markdown.content]);
 
   useEffect(() => {
     const currentUserID = auth.currentUser.uid;
@@ -121,7 +146,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
       {loading ? (
         <LoadingMessage message="Loading Article" />
       ) : (
-        <div className="max-w-[1000px] mt-10 2xl:mt-[100px]">
+        <div className="w-[1000px] mt-10 2xl:mt-[100px]">
           <header className="relative border-b-[1px] p-5">
             <ul className="absolute bottom-5 right-10 flex gap-5">
               <li>
@@ -167,9 +192,17 @@ const Article = ({ article, setArticleRoutesInfo }) => {
               </div>
             </div>
           </header>
-          <div className="flex gap-10 p-5">
+          <div className="flex justify-between gap-10 p-5">
             <article className="text-justify">
-              <ReactMarkdown className="article">{markdown.content}</ReactMarkdown>
+              <React.Fragment>
+                <ReactMarkdown className="article">{text}</ReactMarkdown>
+                <div
+                  className={`w-[7px] h-[20px] ${
+                    showCursor ? "bg-white" : "bg-transparent"
+                  } inline-block`}
+                  ref={cursorRef}
+                />
+              </React.Fragment>
             </article>
             <aside className="flex flex-col gap-3">
               {article.authorID ? (

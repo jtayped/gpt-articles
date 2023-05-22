@@ -312,7 +312,6 @@ export const getArticleFileURL = async (articleStorageID) => {
       const articleRef = ref(storage, `/articles/${articleStorageID}.md`);
 
       getDownloadURL(articleRef).then((url) => {
-        console.log(url);
         resolve(url);
       });
     } catch (error) {
@@ -354,4 +353,3 @@ export const appendArticleRoutes = async (articles, setArticleRoutes) => {
     return [...prevRoutes, ...filteredRoutes];
   });
 };
-
