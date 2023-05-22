@@ -37,11 +37,11 @@ const UserInfo = ({ authorID, setArticleRoutesInfo }) => {
 
     getUserArticles(100, authorID).then((userArticles) => {
       appendArticleRoutes(userArticles, setArticleRoutesInfo);
-      
+
       setAuthorArticles(userArticles);
       setLoading(false);
     });
-  }, [authorID]);
+  }, [authorID, setArticleRoutesInfo]);
 
   return (
     <div

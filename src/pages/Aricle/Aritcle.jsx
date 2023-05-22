@@ -6,11 +6,7 @@ import { UserInfo } from "../../containers";
 import { Badge, LoadingMessage, NewsLetter } from "../../components";
 
 // JS
-import {
-  getArticleFileURL,
-  getRandomArticles,
-  likeArticle,
-} from "../../js/firebaseFunctions";
+import { getArticleFileURL, likeArticle } from "../../js/firebaseFunctions";
 
 // CSS
 import "./article.css";
@@ -30,8 +26,6 @@ import ReactMarkdown from "react-markdown";
 import { Buffer } from "buffer";
 import matter from "gray-matter";
 
-let timer;
-let cursorTimer;
 const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
@@ -46,13 +40,13 @@ const Article = ({ article, setArticleRoutesInfo }) => {
   useEffect(() => {
     function typeText() {
       let i = -1;
-      timer = setInterval(() => {
+      let timer = setInterval(() => {
         i++;
         if (i === markdown.content.length - 1) clearInterval(timer);
         setText((prev) => prev + markdown.content[i]);
       }, 0.01);
 
-      cursorTimer = setInterval(() => {
+      setInterval(() => {
         setShowCursor((prev) => !prev);
       }, 500);
     }
@@ -93,7 +87,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
     } else {
       setReaction(null);
     }
-  }, []);
+  }, [article]);
 
   const formatTimestamp = (seconds) => {
     const date = new Date(seconds * 1000);
