@@ -119,8 +119,8 @@ function App() {
 
         <Route exact path="/create" element={<Development />} />
         <Route exact path="/liked" element={<Development />} />
-        {isLoggedIn && <Route exact path="/login" element={<LogIn />} />}
-        {isLoggedIn && <Route exact path="/signup" element={<SignUp />} />}
+        {!isLoggedIn && <Route exact path="/login" element={<LogIn />} />}
+        {!isLoggedIn && <Route exact path="/signup" element={<SignUp />} />}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
