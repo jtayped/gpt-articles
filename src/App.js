@@ -77,7 +77,12 @@ function App() {
     <Route
       key={index}
       path={articleInfo.route}
-      element={<Article article={articleInfo.article} setArticleRoutesInfo={setArticleRoutesInfo}/>}
+      element={
+        <Article
+          article={articleInfo.article}
+          setArticleRoutesInfo={setArticleRoutesInfo}
+        />
+      }
     />
   ));
 
@@ -114,8 +119,9 @@ function App() {
 
         <Route exact path="/create" element={<Development />} />
         <Route exact path="/liked" element={<Development />} />
-        <Route exact path="/login" element={<LogIn />} />
-        <Route exact path="/signup" element={<SignUp />} />
+        {isLoggedIn && <Route exact path="/login" element={<LogIn />} />}
+        {isLoggedIn && <Route exact path="/signup" element={<SignUp />} />}
+
         <Route path="*" element={<NotFound />} />
       </Routes>
       {isLoggedIn && (
