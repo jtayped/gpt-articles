@@ -1,31 +1,39 @@
-import React, { useState } from "react";
+// React Util
+import React, { useState, useEffect } from "react";
+
+// Images
+import DefaultPFP from "../assets/defaultPFP.webp";
 
 const AskUserData = () => {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
-  
+
   function handleSubmit() {}
 
-    const prevStateRef = useRef(state);
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (state !== prevStateRef.current) {
-        
-      }
-      prevStateRef.current = state; 
-    }, 500);
+    const interval = setInterval(() => {}, 500);
 
     return () => {
-      clearInterval(interval); 
+      clearInterval(interval);
     };
   }, []);
 
-}
-
   return (
     <div className="flex flex-col gap-2">
-      <form action={(e) => handleSubmit(e)}>
+      <form
+        className="flex flex-col gap-5 items-center mt-[-50px]"
+        action={(e) => handleSubmit(e)}
+      >
+        <div className="w-[400px] h-[205px] shadow-lg rounded-lg border-[#10A37F95] border-2 border-dashed flex flex-col justify-center">
+          <h1 className="text-xl font-bold">Upload Profile Picture</h1>
+          <p className="text-sm">
+            Click{" "}
+            <span className="text-[#10A37F] decoration-[#10A37F] cursor-pointer underline-1">
+              here
+            </span>{" "}
+            to upload manually.
+          </p>
+        </div>
         <input
           type="text"
           name="username"
