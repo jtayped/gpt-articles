@@ -310,7 +310,6 @@ export const getArticleFileURL = async (articleStorageID) => {
       const articleRef = ref(storage, `/articles/${articleStorageID}.md`);
 
       getDownloadURL(articleRef).then((url) => {
-        console.log(url);
         resolve(url);
       });
     } catch (error) {

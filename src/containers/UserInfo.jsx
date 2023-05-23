@@ -37,15 +37,15 @@ const UserInfo = ({ authorID, setArticleRoutesInfo }) => {
 
     getUserArticles(100, authorID).then((userArticles) => {
       appendArticleRoutes(userArticles, setArticleRoutesInfo);
-      
+
       setAuthorArticles(userArticles);
       setLoading(false);
     });
-  }, [authorID]);
+  }, [authorID, setArticleRoutesInfo]);
 
   return (
     <div
-      className={`flex flex-col bg-gpt-500 min-w-[300px] rounded-lg shadow-xl ${
+      className={`flex flex-col bg-gpt-500 w-[270px] rounded-lg shadow-xl ${
         loading ? "flex items-center justify-center" : null
       }`}
     >
