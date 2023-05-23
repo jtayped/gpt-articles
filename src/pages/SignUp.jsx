@@ -10,7 +10,7 @@ import {
 import Logo from "../assets/vector/default-monochrome-black.svg";
 import Google from "../assets/vector/google.svg";
 import { createUser } from "../js/firebaseFunctions";
-import { AskUserData } from "../containers/AskUserData";
+import { AskUserData } from "../containers";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -29,8 +29,8 @@ const SignIn = () => {
     }
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      //await createUserWithEmailAndPassword(auth, email, password);
+      setHasCreated(true);
     } catch (err) {
       if (err.code === AuthErrorCodes.INVALID_EMAIL) {
         setError("Invalid email address.");
@@ -66,7 +66,9 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      signInWithPopup(auth, googleProvider);
+      signInWithPopup(auth, googleProvider).then(() =>
+        createUser(auth.currentUser.displayName)
+      );
       navigate("/");
     } catch (err) {
       setError("There has been an error, try again later!");
@@ -80,7 +82,7 @@ const SignIn = () => {
         <img src={Logo} className="h-10 min-w-[100px]" alt="Logo" />
       </header>
       <main className="max-w-[350px] sm:w-[350px] text-center">
-        {hasCreated ? (
+        {!hasCreated ? (
           <AskUserData />
         ) : (
           <>

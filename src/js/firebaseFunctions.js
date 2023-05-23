@@ -131,7 +131,7 @@ export const getRandomArticles = async (nArticles) => {
   });
 };
 
-export const createUser = async (username, firstName, lastName) => {
+export const createUser = async (username) => {
   try {
     const userRef = doc(db, "/users", auth.currentUser.uid);
 
@@ -144,8 +144,6 @@ export const createUser = async (username, firstName, lastName) => {
     } else {
       const newUser = {
         username: username,
-        firstName: firstName,
-        lastName: lastName,
         photoURL: auth.currentUser.photoURL,
         badges: ["Newbie"],
         following: [],
@@ -354,4 +352,3 @@ export const appendArticleRoutes = async (articles, setArticleRoutes) => {
     return [...prevRoutes, ...filteredRoutes];
   });
 };
-
