@@ -43,7 +43,7 @@ function App() {
       setLoading(false);
       setLoggedIn(user);
 
-      if (user.uid) {
+      if (user) {
         getUserData(user.uid).then((userData) => {
           setUserData(userData);
           getArticlesOrderedBy("likeCount", 3, false).then((articles) => {

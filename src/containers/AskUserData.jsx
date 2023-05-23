@@ -22,10 +22,10 @@ const AskUserData = () => {
   }, []);
 
   const handleDrop = (event) => {
+    console.log("aaaaa");
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     setDraggedFile(file);
-    console.log(file);
   };
 
   const handleDragEnter = (event) => {
@@ -42,13 +42,13 @@ const AskUserData = () => {
     <div className="flex flex-col items-center">
       <form
         className="flex flex-col gap-3 items-center max-w-[350px] sm:w-[350px]"
-        action={(e) => handleSubmit(e)}
+        onSubmit={(e) => handleSubmit(e)}
       >
         <div
           className="h-[205px] w-full shadow-lg rounded-lg border-[#10A37F95] border-2 border-dashed flex flex-col justify-center"
-          onDrop={handleDrop}
-          onDragLeave={handleDragLeave}
-          onDragEnter={handleDragEnter}
+          onDrop={(e) => handleDrop(e)}
+          onDragLeave={(e) => handleDragLeave(e)}
+          onDragEnter={(e) => handleDragEnter(e)}
         >
           {dragOver ? null : (
             <>
