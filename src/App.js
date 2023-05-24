@@ -24,6 +24,7 @@ import {
   getUserData,
   getFollowingArticles,
   appendArticleRoutes,
+  checkUserExists,
 } from "./js/firebaseFunctions";
 
 function App() {
@@ -41,7 +42,13 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setLoading(false);
-      setLoggedIn(user);
+      if (user) {
+        checkUserExists(user.uid).then((exists) => {
+          setLoggedIn(exists);
+        });
+      } else {
+        setLoggedIn(false);
+      }
 
       if (user) {
         getUserData(user.uid).then((userData) => {

@@ -29,7 +29,9 @@ const SignIn = () => {
     }
 
     try {
-      setHasCreated(true);
+      createUserWithEmailAndPassword(auth, email, password).then(() => {
+        setHasCreated(true);
+      });
     } catch (err) {
       if (err.code === AuthErrorCodes.INVALID_EMAIL) {
         setError("Invalid email address.");
@@ -81,7 +83,7 @@ const SignIn = () => {
         <img src={Logo} className="h-10 min-w-[100px]" alt="Logo" />
       </header>
       <main className="max-w-[350px] sm:w-[350px] text-center">
-        {!hasCreated ? (
+        {hasCreated ? (
           <AskUserData email={email} password={password} />
         ) : (
           <>

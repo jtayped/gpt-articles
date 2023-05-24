@@ -388,3 +388,14 @@ export const checkUsernameExists = async (username) => {
     }
   });
 };
+
+export const checkUserExists = async (userID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userRef = collection(db, "/users", userID);
+      resolve(await getDoc(userRef).exists());
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

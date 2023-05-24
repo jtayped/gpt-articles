@@ -40,11 +40,10 @@ const AskUserData = ({ email, password }) => {
             "profilePictures"
           ).then(() => {
             console.log("Profile picture uploaded succesfully!");
-            createUserWithEmailAndPassword(auth, email, password).then(() => {
-              createUser(username);
-              navigate("/");
-              setCreatingUser(false);
-            });
+
+            createUser(username);
+            navigate("/");
+            setCreatingUser(false);
           });
         }
       });
