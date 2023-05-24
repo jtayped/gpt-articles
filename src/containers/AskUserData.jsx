@@ -1,31 +1,67 @@
 // React Util
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Images
-import DefaultPFP from "../assets/defaultPFP.webp";
+// Firebase Functions
+import {
+  checkUsernameExists,
+  createUser,
+  uploadFile,
+} from "../js/firebaseFunctions";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-const AskUserData = () => {
+// Icons
+import { FiFilePlus } from "react-icons/fi";
+import { auth } from "../config/firebase";
+import { LoadingMessage } from "../components";
+
+const AskUserData = ({ email, password }) => {
+  const navigate = useNavigate();
+
   const [draggedFile, setDraggedFile] = useState(null);
   const [dragOver, setDragOver] = useState(false);
 
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
 
-  function handleSubmit() {}
+  const [creatingUser, setCreatingUser] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {}, 500);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (draggedFile && username) {
+      setCreatingUser(true);
+      checkUsernameExists(username).then((exists) => {
+        if (exists) {
+          setError("Username taken!");
+        } else {
+          uploadFile(
+            draggedFile,
+            "lMiFGinMHeV4VC0fQrnD6yAGGeJ2",
+            "profilePictures"
+          ).then(() => {
+            console.log("Profile picture uploaded succesfully!");
+            createUserWithEmailAndPassword(auth, email, password).then(() => {
+              createUser(username);
+              navigate("/");
+              setCreatingUser(false);
+            });
+          });
+        }
+      });
+    } else {
+      setError("Missing fields!");
+    }
+  };
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  const handleDragOver = (event) => {
+    event.preventDefault();
+  };
 
   const handleDrop = (event) => {
-    console.log("aaaaa");
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     setDraggedFile(file);
+    console.log(file);
   };
 
   const handleDragEnter = (event) => {
@@ -45,22 +81,33 @@ const AskUserData = () => {
         onSubmit={(e) => handleSubmit(e)}
       >
         <div
-          className="h-[205px] w-full shadow-lg rounded-lg border-[#10A37F95] border-2 border-dashed flex flex-col justify-center"
+          className={`h-[205px] w-full shadow-lg rounded-lg border-[#10A37F95] border-2 border-dashed flex flex-col justify-center transition-all duration-50 ${
+            dragOver ? "bg-[#10A37F30] text-[#10A37F] items-center" : ""
+          }`}
           onDrop={(e) => handleDrop(e)}
           onDragLeave={(e) => handleDragLeave(e)}
           onDragEnter={(e) => handleDragEnter(e)}
+          onDragOver={(e) => handleDragOver(e)}
         >
-          {dragOver ? null : (
-            <>
-              <h1 className="text-xl font-bold">Upload Profile Picture</h1>
-              <p className="text-sm">
-                Click{" "}
-                <span className="text-[#10A37F] decoration-[#10A37F] cursor-pointer underline-1">
-                  here
-                </span>{" "}
-                to upload manually.
-              </p>
-            </>
+          {draggedFile ? (
+            <div>
+              <h1 className="font-bold text-xl">File Loaded!</h1>
+              <p className="text-xs">{draggedFile.name}</p>
+            </div>
+          ) : dragOver ? (
+            <FiFilePlus size={50} />
+          ) : (
+            <div className="text-center">
+              <h1 className="text-xl font-bold">
+                Drag to Upload Profile Picture
+              </h1>
+              <p className="text-sm">Or upload one manually:</p>{" "}
+              <input
+                type="file"
+                className="text-xs"
+                onChange={(e) => setDraggedFile(e.target.files[0])}
+              />
+            </div>
           )}
         </div>
         <input
@@ -76,11 +123,12 @@ const AskUserData = () => {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <p className="text-red-500 mt-[-10px]">{error}</p>
         <button
-          className="bg-[#10A37F] hover:bg-[#1A7F64] w-full py-3 rounded-[3px] transition-all duration-150 text-white text-lg"
+          className="bg-[#10A37F] hover:bg-[#1A7F64] w-full py-3 rounded-[3px] transition-all duration-150 text-white text-lg flex justify-center"
           type="submit"
         >
-          Submit
+          {creatingUser ? <LoadingMessage message={"Creating"} /> : "Submit"}
         </button>
       </form>
     </div>

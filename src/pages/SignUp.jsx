@@ -29,7 +29,6 @@ const SignIn = () => {
     }
 
     try {
-      //await createUserWithEmailAndPassword(auth, email, password);
       setHasCreated(true);
     } catch (err) {
       if (err.code === AuthErrorCodes.INVALID_EMAIL) {
@@ -82,8 +81,8 @@ const SignIn = () => {
         <img src={Logo} className="h-10 min-w-[100px]" alt="Logo" />
       </header>
       <main className="max-w-[350px] sm:w-[350px] text-center">
-        {!hasCreated ? (
-          <AskUserData />
+        {hasCreated ? (
+          <AskUserData email={email} password={password} />
         ) : (
           <>
             {" "}

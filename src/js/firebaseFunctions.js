@@ -17,7 +17,7 @@ import {
 } from "firebase/firestore";
 import { auth, db, storage } from "../config/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { getDownloadURL, ref } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export const createArticle = async (
   authorId,
@@ -144,7 +144,6 @@ export const createUser = async (username) => {
     } else {
       const newUser = {
         username: username,
-        photoURL: auth.currentUser.photoURL,
         badges: ["Newbie"],
         following: [],
         followers: [],
@@ -349,5 +348,43 @@ export const appendArticleRoutes = async (articles, setArticleRoutes) => {
     );
 
     return [...prevRoutes, ...filteredRoutes];
+  });
+};
+
+export const uploadFile = async (file, name, folderName) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profileRef = ref(storage, `/${folderName}/${name}`);
+      uploadBytes(profileRef, file).then(() => resolve());
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getProfilePicture = async (userID) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const profileRef = ref(storage, `/profilePictures/${userID}`);
+      getDownloadURL(profileRef).then((url) => {
+        resolve(url);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const checkUsernameExists = async (username) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const userCollection = collection(db, "/users");
+      const q = query(userCollection, where("username", "==", username));
+      const usersWithUsername = await getDocs(q);
+
+      resolve(!usersWithUsername.empty);
+    } catch (error) {
+      reject(error);
+    }
   });
 };
