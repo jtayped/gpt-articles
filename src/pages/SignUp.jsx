@@ -84,7 +84,7 @@ const SignIn = () => {
       </header>
       <main className="max-w-[350px] sm:w-[350px] text-center">
         {hasCreated ? (
-          <AskUserData email={email} password={password} />
+          <AskUserData />
         ) : (
           <>
             {" "}

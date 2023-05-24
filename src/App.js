@@ -41,13 +41,14 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setLoading(false);
       if (user) {
         checkUserExists(user.uid).then((exists) => {
           setLoggedIn(exists);
+          setLoading(false);
         });
       } else {
         setLoggedIn(false);
+        setLoading(false);
       }
 
       if (user) {

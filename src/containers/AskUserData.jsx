@@ -13,7 +13,7 @@ import {
 import { FiFilePlus } from "react-icons/fi";
 import { LoadingMessage } from "../components";
 
-const AskUserData = ({ email, password }) => {
+const AskUserData = () => {
   const navigate = useNavigate();
 
   const [draggedFile, setDraggedFile] = useState(null);
