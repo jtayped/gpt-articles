@@ -69,10 +69,12 @@ function App() {
             setDiscoveryArticles(articles);
             appendArticleRoutes(articles, setArticleRoutesInfo);
           });
-          getFollowingArticles(3, userData.following).then((articles) => {
-            setFollowingArticles(articles);
-            appendArticleRoutes(articles, setArticleRoutesInfo);
-          });
+          if (userData.following.lenght > 0) {
+            getFollowingArticles(3, userData.following).then((articles) => {
+              setFollowingArticles(articles);
+              appendArticleRoutes(articles, setArticleRoutesInfo);
+            });
+          }
         });
       }
     });
