@@ -1,5 +1,5 @@
 // React Util
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Firebase Functions
@@ -8,11 +8,9 @@ import {
   createUser,
   uploadFile,
 } from "../js/firebaseFunctions";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 
 // Icons
 import { FiFilePlus } from "react-icons/fi";
-import { auth } from "../config/firebase";
 import { LoadingMessage } from "../components";
 
 const AskUserData = ({ email, password }) => {

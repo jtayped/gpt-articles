@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 // Branding
 import Logo from "../assets/vector/default-monochrome.svg";
 
-import { auth } from "../config/firebase";
 const Auth = () => {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center bg-gpt-50 dark:bg-gpt-400">
