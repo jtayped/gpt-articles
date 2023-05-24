@@ -153,7 +153,6 @@ export const createUser = async (username) => {
 
       // Set the new article document in the specified path
       await setDoc(userRef, newUser);
-      console.log("User created!");
     }
   } catch (error) {
     console.error(error);
@@ -366,9 +365,13 @@ export const getProfilePicture = async (userID) => {
   return new Promise(async (resolve, reject) => {
     try {
       const profileRef = ref(storage, `/profilePictures/${userID}`);
-      getDownloadURL(profileRef).then((url) => {
-        resolve(url);
-      });
+      getDownloadURL(profileRef)
+        .then((url) => {
+          resolve(url);
+        })
+        .catch((error) => {
+          reject(error);
+        });
     } catch (error) {
       reject(error);
     }
@@ -393,7 +396,11 @@ export const checkUserExists = async (userID) => {
   return new Promise(async (resolve, reject) => {
     try {
       const userDoc = doc(db, "/users", userID);
-      resolve((await getDoc(userDoc)).exists());
+      resolve(
+        getDoc(userDoc)
+          .then((result) => resolve(result.exists()))
+          .catch((error) => reject(error))
+      );
     } catch (error) {
       reject(error);
     }

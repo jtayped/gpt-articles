@@ -12,7 +12,7 @@ import Google from "../assets/vector/google.svg";
 import { createUser } from "../js/firebaseFunctions";
 import { AskUserData } from "../containers";
 
-const SignIn = () => {
+const SignIn = ({ setLoggedIn }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -67,10 +67,11 @@ const SignIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      signInWithPopup(auth, googleProvider).then(() =>
-        createUser(auth.currentUser.displayName)
-      );
-      navigate("/");
+      signInWithPopup(auth, googleProvider).then(() => {
+        createUser(auth.currentUser.displayName);
+        navigate("/");
+        setLoggedIn(true);
+      });
     } catch (err) {
       setError("There has been an error, try again later!");
       console.error(err);
@@ -84,7 +85,7 @@ const SignIn = () => {
       </header>
       <main className="max-w-[350px] sm:w-[350px] text-center">
         {hasCreated ? (
-          <AskUserData />
+          <AskUserData setLoggedIn={setLoggedIn} />
         ) : (
           <>
             {" "}

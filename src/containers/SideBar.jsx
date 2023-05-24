@@ -1,5 +1,5 @@
 // React Util
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // Icons
@@ -17,6 +17,7 @@ import DefaultPFP from "../assets/defaultPFP.webp";
 
 // JSX Components
 import { ArticleGroup } from "./index";
+import { getProfilePicture } from "../js/firebaseFunctions";
 
 const SideBarAccountOption = ({ name, icon, funct }) => {
   return (
@@ -38,6 +39,14 @@ const SideBar = ({
 }) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
+  const [profilePicture, setProfilePicture] = useState("");
+
+  useEffect(() => {
+    getProfilePicture(auth.currentUser.uid).then((url) => {
+      setProfilePicture(url);
+    });
+  }, []);
+
   function toggleAccountOpts() {
     setAccountOpts(!isAccountOpts);
   }
@@ -102,7 +111,13 @@ const SideBar = ({
               name={userData.username}
               icon={
                 <img
-                  src={userData.photoURL ? userData.photoURL : DefaultPFP}
+                  src={
+                    userData.photoURL
+                      ? userData.photoURL
+                      : profilePicture
+                      ? profilePicture
+                      : DefaultPFP
+                  }
                   className="h-[20px] rounded-sm"
                   alt="Profile"
                 />

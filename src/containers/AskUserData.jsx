@@ -12,8 +12,9 @@ import {
 // Icons
 import { FiFilePlus } from "react-icons/fi";
 import { LoadingMessage } from "../components";
+import { auth } from "../config/firebase";
 
-const AskUserData = () => {
+const AskUserData = ({ setLoggedIn }) => {
   const navigate = useNavigate();
 
   const [draggedFile, setDraggedFile] = useState(null);
@@ -32,17 +33,14 @@ const AskUserData = () => {
         if (exists) {
           setError("Username taken!");
         } else {
-          uploadFile(
-            draggedFile,
-            "lMiFGinMHeV4VC0fQrnD6yAGGeJ2",
-            "profilePictures"
-          ).then(() => {
-            console.log("Profile picture uploaded succesfully!");
-
-            createUser(username);
-            navigate("/");
-            setCreatingUser(false);
-          });
+          uploadFile(draggedFile, auth.currentUser.uid, "profilePictures").then(
+            () => {
+              createUser(username);
+              navigate("/");
+              setCreatingUser(false);
+              setLoggedIn(true);
+            }
+          );
         }
       });
     } else {
@@ -58,7 +56,6 @@ const AskUserData = () => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     setDraggedFile(file);
-    console.log(file);
   };
 
   const handleDragEnter = (event) => {

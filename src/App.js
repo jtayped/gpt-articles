@@ -42,8 +42,8 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        checkUserExists(user.uid).then((exists) => {
-          setLoggedIn(exists);
+        checkUserExists(user.uid).then(() => {
+          setLoggedIn(true);
           setLoading(false);
         });
       } else {
@@ -70,12 +70,11 @@ function App() {
             setDiscoveryArticles(articles);
             appendArticleRoutes(articles, setArticleRoutesInfo);
           });
-          if (userData.following.lenght > 0) {
+          if (userData.following.length > 0)
             getFollowingArticles(3, userData.following).then((articles) => {
               setFollowingArticles(articles);
               appendArticleRoutes(articles, setArticleRoutesInfo);
             });
-          }
         });
       }
     });
@@ -130,7 +129,13 @@ function App() {
         <Route exact path="/create" element={<Development />} />
         <Route exact path="/liked" element={<Development />} />
         {!isLoggedIn && <Route exact path="/login" element={<LogIn />} />}
-        {!isLoggedIn && <Route exact path="/signup" element={<SignUp />} />}
+        {!isLoggedIn && (
+          <Route
+            exact
+            path="/signup"
+            element={<SignUp setLoggedIn={setLoggedIn} />}
+          />
+        )}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
