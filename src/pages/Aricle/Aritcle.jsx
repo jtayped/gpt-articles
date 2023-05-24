@@ -133,7 +133,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
 
   return (
     <main
-      className={`h-full flex justify-center text-white pl-[260px] ${
+      className={`h-full flex justify-center text-white md:pl-[260px] ${
         loading ? "h-screen flex justify-center items-center" : ""
       }`}
     >

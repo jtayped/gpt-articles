@@ -57,7 +57,7 @@ const Home = ({
   isLoading,
 }) => {
   return (
-    <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100 md:pl-[260px]">
+    <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100 md:pl-[260px] mt-10 md:mt-0">
       <main className="relative h-full w-full transition-width flex flex-col items-stretch flex-1">
         <div className="flex flex-col items-center justify-between text-sm dark:bg-gpt-400">
           {" "}
