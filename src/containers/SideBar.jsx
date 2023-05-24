@@ -36,6 +36,7 @@ const SideBar = ({
   mostLikedArticles,
   userData,
   isLoading,
+  isMobile,
 }) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
@@ -60,7 +61,11 @@ const SideBar = ({
   }
 
   return (
-    <aside className="fixed top-0 left-0 dark w-[260px] h-screen flex-shrink-0 flex-col overflow-x-hidden bg-gpt-500">
+    <aside
+      className={`fixed top-0 left-0 dark w-[260px] h-screen flex-shrink-0 flex-col overflow-x-hidden bg-gpt-500 ${
+        isMobile ? "block md:hidden" : "hidden md:block"
+      }`}
+    >
       <nav className="flex h-full w-full flex-col p-2">
         <Link
           to="/create"

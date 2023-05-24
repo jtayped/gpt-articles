@@ -104,7 +104,6 @@ function App() {
   }
   return (
     <BrowserRouter>
-      {isLoggedIn && <MobileHeader />}
       <Routes>
         <Route
           exact
@@ -140,11 +139,20 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       {isLoggedIn && (
+        <MobileHeader
+          recentArticles={recentArticles}
+          mostLikedArticles={mostLikedArticles}
+          userData={userData}
+          isLoading={isLoading}
+        />
+      )}
+      {isLoggedIn && (
         <SideBar
           recentArticles={recentArticles}
           mostLikedArticles={mostLikedArticles}
           userData={userData}
           isLoading={isLoading}
+          isMobile={false}
         />
       )}
     </BrowserRouter>
