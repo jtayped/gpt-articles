@@ -75,9 +75,9 @@ const AskUserData = ({ email, password }) => {
   };
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center p-3">
       <form
-        className="flex flex-col gap-3 items-center max-w-[350px] sm:w-[350px]"
+        className="flex flex-col gap-3 items-center w-full sm:w-[350px]"
         onSubmit={(e) => handleSubmit(e)}
       >
         <div
@@ -97,14 +97,14 @@ const AskUserData = ({ email, password }) => {
           ) : dragOver ? (
             <FiFilePlus size={50} />
           ) : (
-            <div className="text-center">
+            <div className="text-center p-3">
               <h1 className="text-xl font-bold">
                 Drag to Upload Profile Picture
               </h1>
               <p className="text-sm">Or upload one manually:</p>{" "}
               <input
                 type="file"
-                className="text-xs"
+                className="text-xs w-[120px] sm:w-fit"
                 onChange={(e) => setDraggedFile(e.target.files[0])}
               />
             </div>
