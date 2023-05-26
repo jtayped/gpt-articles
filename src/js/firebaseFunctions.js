@@ -393,14 +393,16 @@ export const checkUsernameExists = async (username) => {
 };
 
 export const checkUserExists = async (userID) => {
-  return new Promise(async (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     try {
       const userDoc = doc(db, "/users", userID);
-      resolve(
-        getDoc(userDoc)
-          .then((result) => resolve(result.exists()))
-          .catch((error) => reject(error))
-      );
+      getDoc(userDoc)
+        .then((result) => {
+          const exists = result.exists();
+          console.log(exists);
+          resolve(exists);
+        })
+        .catch((error) => reject(error));
     } catch (error) {
       reject(error);
     }

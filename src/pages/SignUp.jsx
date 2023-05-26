@@ -28,24 +28,24 @@ const SignIn = ({ setLoggedIn }) => {
       return;
     }
 
-    try {
-      createUserWithEmailAndPassword(auth, email, password).then(() => {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
         setHasCreated(true);
+      })
+      .catch((err) => {
+        if (err.code === AuthErrorCodes.INVALID_EMAIL) {
+          setError("Invalid email address.");
+        } else if (err.code === AuthErrorCodes.EMAIL_EXISTS) {
+          setError("This email is already in use.");
+        } else if (err.code === AuthErrorCodes.WEAK_PASSWORD) {
+          setError(
+            "The password is too weak. Please choose a stronger password."
+          );
+        } else {
+          setError("An error occurred during sign up. Please try again later.");
+        }
+        console.error(err);
       });
-    } catch (err) {
-      if (err.code === AuthErrorCodes.INVALID_EMAIL) {
-        setError("Invalid email address.");
-      } else if (err.code === AuthErrorCodes.EMAIL_EXISTS) {
-        setError("This email is already in use.");
-      } else if (err.code === AuthErrorCodes.WEAK_PASSWORD) {
-        setError(
-          "The password is too weak. Please choose a stronger password."
-        );
-      } else {
-        setError("An error occurred during sign up. Please try again later.");
-      }
-      console.error(err);
-    }
   };
 
   const handleInputChange = (e) => {

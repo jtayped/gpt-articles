@@ -27,7 +27,7 @@ const AskUserData = ({ setLoggedIn }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (draggedFile && username) {
+    if (username) {
       setCreatingUser(true);
       checkUsernameExists(username).then((exists) => {
         if (exists) {

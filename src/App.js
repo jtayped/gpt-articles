@@ -38,12 +38,12 @@ function App() {
   const [userData, setUserData] = useState([]);
 
   const [articleRoutesInfo, setArticleRoutesInfo] = useState([]);
-
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        checkUserExists(user.uid).then(() => {
-          setLoggedIn(true);
+        checkUserExists(user.uid).then((exists) => {
+          console.log(exists);
+          setLoggedIn(exists);
           setLoading(false);
         });
       } else {
