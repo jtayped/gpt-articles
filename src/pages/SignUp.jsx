@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
   AuthErrorCodes,
   signInWithPopup,
+  sendEmailVerification,
 } from "firebase/auth";
 import Logo from "../assets/vector/default-monochrome-black.svg";
 import Google from "../assets/vector/google.svg";
@@ -29,8 +30,17 @@ const SignIn = ({ setLoggedIn }) => {
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-      .then(() => {
+      .then((userCredential) => {
         setHasCreated(true);
+
+        const user = userCredential.user;
+        sendEmailVerification(user)
+          .then(() => {
+            console.log("Email verification sent");
+          })
+          .catch((error) => {
+            console.log("Error sending email verification:", error);
+          });
       })
       .catch((err) => {
         if (err.code === AuthErrorCodes.INVALID_EMAIL) {
