@@ -23,7 +23,7 @@ const HomeSectionArticle = ({ article }) => {
 
   return (
     <li className="w-full p-3 bg-gpt-50 dark:bg-white/5 rounded-md hover:bg-gpt-100 dark:hover:bg-gpt-500">
-      <Link to={link} className="w-full h-full">
+      <Link to={"/gpt-articles" + link} className="w-full h-full">
         {article.title}
       </Link>
     </li>

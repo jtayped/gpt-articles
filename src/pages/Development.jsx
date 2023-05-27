@@ -13,7 +13,7 @@ const Development = () => {
         <h1 className="text-5xl font-bold">This page is under development!</h1>
         <p>
           Go back to{" "}
-          <Link className="underline hover:brightness-90" to="/">
+          <Link className="underline hover:brightness-90" to="/gpt-articles/">
             Home Page
           </Link>
           .

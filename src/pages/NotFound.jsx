@@ -12,7 +12,7 @@ const NotFound = () => {
         </h1>
         <p>
           Check the address and try again! Or go to{" "}
-          <Link className="underline hover:brightness-90" to="/">
+          <Link className="underline hover:brightness-90" to="/gpt-articles/">
             Home Page
           </Link>
           .

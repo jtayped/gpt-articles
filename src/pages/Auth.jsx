@@ -16,7 +16,7 @@ const Auth = () => {
         </p>
         <div className="flex flex-row gap-3 mt-3">
           <Link
-            to="/login"
+            to="/gpt-articles/login"
             className="bg-[#10A37F] text-white text-sm p-2 px-4 rounded-sm hover:bg-[#1A7F64]"
           >
             <div className="flex w-full items-center justify-center gap-2">
@@ -24,7 +24,7 @@ const Auth = () => {
             </div>
           </Link>
           <Link
-            to="/signup"
+            to="/gpt-articles/signup"
             className="bg-[#10A37F] text-white text-sm p-2 px-4 rounded-sm hover:bg-[#1A7F64]"
           >
             <div className="flex w-full items-center justify-center gap-2">

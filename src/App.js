@@ -85,7 +85,7 @@ function App() {
   const articleRoutes = articleRoutesInfo.map((articleInfo, index) => (
     <Route
       key={index}
-      path={articleInfo.route}
+      path={"/gpt-articles" + articleInfo.route}
       element={
         <Article
           article={articleInfo.article}
@@ -107,7 +107,7 @@ function App() {
       <Routes>
         <Route
           exact
-          path="/"
+          path="/gpt-articles"
           element={
             isLoggedIn ? (
               <Home
@@ -125,13 +125,15 @@ function App() {
 
         {articleRoutes}
 
-        <Route exact path="/create" element={<Development />} />
-        <Route exact path="/liked" element={<Development />} />
-        {!isLoggedIn && <Route exact path="/login" element={<LogIn />} />}
+        <Route exact path="/gpt-articles/create" element={<Development />} />
+        <Route exact path="/gpt-articles/liked" element={<Development />} />
+        {!isLoggedIn && (
+          <Route exact path="/gpt-articles/login" element={<LogIn />} />
+        )}
         {!isLoggedIn && (
           <Route
             exact
-            path="/signup"
+            path="/gpt-articles/signup"
             element={<SignUp setLoggedIn={setLoggedIn} />}
           />
         )}

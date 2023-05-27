@@ -37,7 +37,7 @@ const Search = () => {
       </form>
       <p className="text-center px-3 pb-3 pt-2 text-xs text-gray-600 dark:text-gray-300 md:px-4 md:pb-6 md:pt-3">
         This is <b>NOT</b> the oficial Chat GPT website, this is GPT Articles.{" "}
-        <Link to="/about" className="underline">
+        <Link to="/gpt-articles/about" className="underline">
           Read More
         </Link>
       </p>

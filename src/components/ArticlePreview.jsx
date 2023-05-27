@@ -15,11 +15,11 @@ const ArticlePreview = ({ article }) => {
     createArticleLink(article).then((link) => {
       setLink(link);
     });
-  }, []);
+  }, [article]);
   return (
     <li>
       <Link
-        to={link}
+        to={"/gpt-articles" + link}
         className="flex py-3 px-3 items-center gap-3 relative rounded-md text-white hover:bg-[#2A2B32] cursor-pointer break-all )} )} hover:pr-4 bg-gpt-500 group"
       >
         <FiMessageSquare size={16} />

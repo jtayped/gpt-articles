@@ -158,7 +158,7 @@ const SignIn = ({ setLoggedIn }) => {
             </form>
             <p className="my-3">
               Already have an account?{" "}
-              <Link to="/login" className="text-[#26b38d]">
+              <Link to="/gpt-articles/login" className="text-[#26b38d]">
                 Log In
               </Link>
             </p>

@@ -68,7 +68,7 @@ const SideBar = ({
     >
       <nav className="flex h-full w-full flex-col p-2">
         <Link
-          to="/create"
+          to="/gpt-articles/create"
           className="flex py-3 px-3 items-center gap-3 transition-colors duration-200 text-white cursor-pointer text-sm rounded-md border border-white/20 hover:bg-gray-500/10 mb-1 flex-shrink-0"
         >
           <FiPlus size={16} />
