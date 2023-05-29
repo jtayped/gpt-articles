@@ -12,7 +12,7 @@ import { getArticleFileURL, likeArticle } from "../../js/firebaseFunctions";
 import "./article.css";
 
 // Icons
-import { FiMessageCircle } from "react-icons/fi";
+import { FiMessageCircle, FiSkipForward } from "react-icons/fi";
 import {
   AiFillDislike,
   AiFillLike,
@@ -30,6 +30,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
 
   const [loading, setLoading] = useState(true);
+  const [animationSkipped, setAnimationSkipped] = useState(false);
   const [reaction, setReaction] = useState(null);
   const [markdown, setMarkdown] = useState("");
 
@@ -51,10 +52,11 @@ const Article = ({ article, setArticleRoutesInfo }) => {
       }, 500);
     }
 
-    if (!loading) {
+    if (!loading && !animationSkipped) {
+      console.log(animationSkipped);
       typeText();
     }
-  }, [loading, markdown.content]);
+  }, [loading, markdown.content, animationSkipped]);
 
   useEffect(() => {
     const currentUserID = auth.currentUser.uid;
@@ -131,6 +133,11 @@ const Article = ({ article, setArticleRoutesInfo }) => {
     }
   };
 
+  function skipAnimation() {
+    setText(markdown.content);
+    setAnimationSkipped(true);
+  }
+
   return (
     <main
       className={`h-full flex justify-center text-white md:pl-[260px] ${
@@ -196,9 +203,19 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                   } inline-block`}
                   ref={cursorRef}
                 />
+                <div class="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-[50%] right-[50%]">
+                  <button
+                    class="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm"
+                    onClick={() => skipAnimation()}
+                  >
+                    <div class="flex w-full gap-2 items-center justify-center">
+                      <FiSkipForward /> Skip animation
+                    </div>
+                  </button>
+                </div>
               </React.Fragment>
             </article>
-            <aside className="flex flex-col gap-3">
+            <aside className="flex flex-col gap-3 sticky top-7 h-full">
               {article.authorID ? (
                 <UserInfo
                   authorID={article.authorID}
