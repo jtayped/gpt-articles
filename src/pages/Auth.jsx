@@ -7,7 +7,7 @@ import Logo from "../assets/vector/default-monochrome.svg";
 
 const Auth = () => {
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center bg-gpt-50 dark:bg-gpt-400">
+    <div className="flex h-screen w-full flex-col items-center justify-center bg-gpt-400">
       <main className="w-96 flex flex-col flex-auto justify-center items-center">
         <img src={Logo} alt="Logo" />
         <p className="text-center mt-3 text-white">Welcome to GPT Articles</p>

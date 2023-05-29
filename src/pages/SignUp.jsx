@@ -79,7 +79,7 @@ const SignIn = ({ setLoggedIn }) => {
     try {
       signInWithPopup(auth, googleProvider).then(() => {
         createUser(auth.currentUser.displayName);
-        navigate("/");
+        navigate("/gpt-articles");
         setLoggedIn(true);
       });
     } catch (err) {
