@@ -197,13 +197,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
             <article className="lg:text-justify px-1 lg:px-0">
               <React.Fragment>
                 <ReactMarkdown className="article">{text}</ReactMarkdown>
-                <div
-                  className={`w-[7px] h-[20px] ${
-                    showCursor ? "bg-white" : "bg-transparent"
-                  } inline-block`}
-                  ref={cursorRef}
-                />
-                <div className="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-[50%] right-[50%]">
+                <div className="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-1/2 transform translate-x-[-50%]">
                   <button
                     className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm"
                     onClick={() => skipAnimation()}
