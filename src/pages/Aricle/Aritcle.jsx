@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 // JSX Elements
-import { UserInfo } from "../../containers";
+import { UserInfo, UserInfoMobile } from "../../containers";
 import { Badge, LoadingMessage, NewsLetter } from "../../components";
 
 // JS
@@ -53,7 +53,6 @@ const Article = ({ article, setArticleRoutesInfo }) => {
     }
 
     if (!loading && !animationSkipped) {
-      console.log(animationSkipped);
       typeText();
     }
   }, [loading, markdown.content, animationSkipped]);
@@ -147,8 +146,8 @@ const Article = ({ article, setArticleRoutesInfo }) => {
       {loading ? (
         <LoadingMessage message="Loading Article" />
       ) : (
-        <div className="w-[1000px] mt-10 2xl:mt-[100px]">
-          <header className="relative border-b-[1px] p-5">
+        <div className="w-[1000px] xl:mt-10 2xl:mt-[100px]">
+          <header className="relative border-b-[1px] p-5 mt-5 md:mt-0">
             <ul className="absolute bottom-5 right-10 flex gap-5">
               <li>
                 <button
@@ -193,8 +192,9 @@ const Article = ({ article, setArticleRoutesInfo }) => {
               </div>
             </div>
           </header>
-          <div className="flex justify-between gap-10 p-5">
-            <article className="text-justify">
+          <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5">
+            <UserInfoMobile authorID={article.authorID} />
+            <article className="lg:text-justify px-1 lg:px-0">
               <React.Fragment>
                 <ReactMarkdown className="article">{text}</ReactMarkdown>
                 <div
@@ -203,19 +203,19 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                   } inline-block`}
                   ref={cursorRef}
                 />
-                <div class="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-[50%] right-[50%]">
+                <div className="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-[50%] right-[50%]">
                   <button
-                    class="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm"
+                    className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm"
                     onClick={() => skipAnimation()}
                   >
-                    <div class="flex w-full gap-2 items-center justify-center">
+                    <div className="flex w-full gap-2 items-center justify-center">
                       <FiSkipForward /> Skip animation
                     </div>
                   </button>
                 </div>
               </React.Fragment>
             </article>
-            <aside className="flex flex-col gap-3 sticky top-7 h-full">
+            <aside className="flex-col gap-3 sticky top-7 h-full hidden lg:flex">
               {article.authorID ? (
                 <UserInfo
                   authorID={article.authorID}
