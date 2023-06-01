@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { getUserData, followUser } from "../js/firebaseFunctions";
 
 // JSX Elements
-import { Badge, LoadingMessage } from "../components";
+import { Badge, LoadingMessage, Tags } from "../components";
 
 // Icons
 import { FiUserPlus, FiUserX } from "react-icons/fi";
@@ -43,23 +43,9 @@ const UserInfoMobile = ({ authorID }) => {
             />
             <div className="flex flex-col h-full justify-center">
               <p className="font-bold text-xl">{authorData.username}</p>
-              <ul className="flex flex-wrap gap-x-1 gap-y-0.5 w-[150px]">
-                {authorData.badges
-                  ? authorData.badges
-                      .slice(0, maxBadges)
-                      .map((badge, index) => (
-                        <Badge key={index} badge={badge} />
-                      ))
-                  : null}
-                {authorData.badges &&
-                authorData.badges["length"] > maxBadges ? (
-                  <li key={authorData.badges.lenght + 1}>
-                    <p className="text-xs">
-                      +{authorData.badges["length"] - maxBadges} more
-                    </p>
-                  </li>
-                ) : null}
-              </ul>
+              <div className="max-w-[150px]">
+                <Tags tags={authorData.badges} maxTags={2} />
+              </div>
             </div>
           </div>
           {following ? (

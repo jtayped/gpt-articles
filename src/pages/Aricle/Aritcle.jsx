@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 // JSX Elements
 import { UserInfo, UserInfoMobile } from "../../containers";
-import { Badge, LoadingMessage, NewsLetter } from "../../components";
+import { Badge, LoadingMessage, NewsLetter, Tags } from "../../components";
 
 // JS
 import { getArticleFileURL, likeArticle } from "../../js/firebaseFunctions";
@@ -28,6 +28,8 @@ import matter from "gray-matter";
 
 const Article = ({ article, setArticleRoutesInfo }) => {
   global.Buffer = global.Buffer || Buffer;
+
+  const maxTags = 4;
 
   const [loading, setLoading] = useState(true);
   const [animationSkipped, setAnimationSkipped] = useState(false);
@@ -178,17 +180,14 @@ const Article = ({ article, setArticleRoutesInfo }) => {
             </ul>
             <div>
               <div className="flex flex-col">
+                <div className="mb-1"><Tags tags={article.tags} maxTags={maxTags} /></div>
+                
                 <h1 className="text-3xl font-bold">{article.title}</h1>
                 <p className="text-sm font-thin text-gpt-50">
                   {article.timestamp
                     ? formatTimestamp(article.timestamp.seconds)
                     : null}
                 </p>
-                <ul className="flex flex-wrap gap-1">
-                  {article.tags
-                    ? article.tags.map((tag) => <Badge key={tag} badge={tag} />)
-                    : null}
-                </ul>
               </div>
             </div>
           </header>
