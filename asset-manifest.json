@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/gpt-articles/static/css/main.bb977fc3.css",
-    "main.js": "/gpt-articles/static/js/main.379e0886.js",
+    "main.css": "/gpt-articles/static/css/main.b871989c.css",
+    "main.js": "/gpt-articles/static/js/main.e9d8ab4c.js",
     "static/media/defaultPFP.webp": "/gpt-articles/static/media/defaultPFP.2686ce241bb729de41fa.webp",
     "static/media/default-monochrome.svg": "/gpt-articles/static/media/default-monochrome.16a1bf41741605590348298c65d5db76.svg",
     "static/media/default-monochrome-black.svg": "/gpt-articles/static/media/default-monochrome-black.9910a675c4bcfe8fdf1221d6d8e57611.svg",
     "static/media/isolated-monochrome-white.svg": "/gpt-articles/static/media/isolated-monochrome-white.eb5ab14fa171dc67c7bce0e70a560647.svg",
     "index.html": "/gpt-articles/index.html",
     "static/media/google.svg": "/gpt-articles/static/media/google.330a2dc7f18d7502647dc5d6f93812ec.svg",
-    "main.bb977fc3.css.map": "/gpt-articles/static/css/main.bb977fc3.css.map",
-    "main.379e0886.js.map": "/gpt-articles/static/js/main.379e0886.js.map"
+    "main.b871989c.css.map": "/gpt-articles/static/css/main.b871989c.css.map",
+    "main.e9d8ab4c.js.map": "/gpt-articles/static/js/main.e9d8ab4c.js.map"
   },
   "entrypoints": [
-    "static/css/main.bb977fc3.css",
-    "static/js/main.379e0886.js"
+    "static/css/main.b871989c.css",
+    "static/js/main.e9d8ab4c.js"
   ]
 }
