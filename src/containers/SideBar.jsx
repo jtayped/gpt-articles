@@ -60,7 +60,7 @@ const SideBar = ({ userData, isLoading, isMobile, setArticleRoutesInfo }) => {
       setMostLikedArticles(articles);
       appendArticleRoutes(articles, setArticleRoutesInfo);
     });
-  }, []);
+  }, [setArticleRoutesInfo]);
 
   function toggleAccountOpts() {
     setAccountOpts(!isAccountOpts);

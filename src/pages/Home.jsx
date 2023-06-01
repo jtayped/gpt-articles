@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 // JSX Components
 import { Search } from "../containers";
-import { LoadingMessage } from "../components";
 
 // Icons
 import { FiTrendingUp, FiSun, FiSlack } from "react-icons/fi";
@@ -77,7 +76,7 @@ const Home = ({ setArticleRoutesInfo }) => {
         });
       }
     });
-  }, []);
+  }, [setArticleRoutesInfo]);
 
   return (
     <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100 md:pl-[260px] mt-10 md:mt-0">

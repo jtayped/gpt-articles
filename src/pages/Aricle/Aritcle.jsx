@@ -1,9 +1,9 @@
 // React Markdown
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 
 // JSX Elements
 import { UserInfo, UserInfoMobile } from "../../containers";
-import { Badge, LoadingMessage, NewsLetter, Tags } from "../../components";
+import { LoadingMessage, NewsLetter, Tags } from "../../components";
 
 // JS
 import { getArticleFileURL, likeArticle } from "../../js/firebaseFunctions";
@@ -38,7 +38,6 @@ const Article = ({ article, setArticleRoutesInfo }) => {
 
   const [text, setText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
-  const cursorRef = useRef(null);
 
   useEffect(() => {
     function typeText() {

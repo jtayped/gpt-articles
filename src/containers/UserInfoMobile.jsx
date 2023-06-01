@@ -5,14 +5,13 @@ import React, { useEffect, useState } from "react";
 import { getUserData, followUser } from "../js/firebaseFunctions";
 
 // JSX Elements
-import { Badge, LoadingMessage, Tags } from "../components";
+import { LoadingMessage, Tags } from "../components";
 
 // Icons
 import { FiUserPlus, FiUserX } from "react-icons/fi";
 import { auth } from "../config/firebase";
 
 const UserInfoMobile = ({ authorID }) => {
-  const maxBadges = 2;
   const [loading, setLoading] = useState(true);
 
   const [authorData, setAuthorData] = useState({});

@@ -17,15 +17,7 @@ import { LoadingMessage } from "./components";
 
 // Firebase
 import { auth } from "./config/firebase";
-import {
-  getArticlesOrderedBy,
-  getRandomArticles,
-  getTrendingArticles,
-  getUserData,
-  getFollowingArticles,
-  appendArticleRoutes,
-  checkUserExists,
-} from "./js/firebaseFunctions";
+import { getUserData, checkUserExists } from "./js/firebaseFunctions";
 
 function App() {
   const [isLoading, setLoading] = useState(true);
