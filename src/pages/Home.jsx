@@ -10,7 +10,15 @@ import { LoadingMessage } from "../components";
 import { FiTrendingUp, FiSun, FiSlack } from "react-icons/fi";
 
 // Firebase
-import { createArticleLink } from "../js/firebaseFunctions";
+import {
+  createArticleLink,
+  getFollowingArticles,
+  getRandomArticles,
+  getTrendingArticles,
+  getUserData,
+  appendArticleRoutes,
+} from "../js/firebaseFunctions";
+import { auth } from "../config/firebase";
 
 const HomeSectionArticle = ({ article }) => {
   const [link, setLink] = useState("");
@@ -30,32 +38,47 @@ const HomeSectionArticle = ({ article }) => {
   );
 };
 
-const HomeSection = ({ title, icon, articles, isLoading }) => {
+const HomeSection = ({ title, icon, articles }) => {
   return (
     <div className="flex flex-col mb-8 md:mb-auto gap-3.5 flex-1">
       <h2 className="flex gap-3 items-center m-auto text-lg font-normal md:flex-col md:gap-2">
         {icon}
         {title}
       </h2>
-      {isLoading ? (
-        <LoadingMessage message={`Loading ${title}`} centered={true} />
-      ) : (
-        <ul className="flex flex-col gap-3.5 w-full sm:max-w-md m-auto">
-          {articles.map((article) => (
-            <HomeSectionArticle key={article.title} article={article} />
-          ))}
-        </ul>
-      )}
+      <ul className="flex flex-col gap-3.5 w-full sm:max-w-md m-auto">
+        {articles.map((article) => (
+          <HomeSectionArticle key={article.title} article={article} />
+        ))}
+      </ul>
     </div>
   );
 };
 
-const Home = ({
-  trendingArticles,
-  discoveryArticles,
-  followingArticles,
-  isLoading,
-}) => {
+const Home = ({ setArticleRoutesInfo }) => {
+  const [trendingArticles, setTrendingArticles] = useState([]);
+  const [discoverArticles, setDiscoverArticles] = useState([]);
+  const [followingArticles, setFollowingArticles] = useState([]);
+
+  useEffect(() => {
+    getUserData(auth.currentUser.uid).then((userData) => {
+      getTrendingArticles(3).then((articles) => {
+        setTrendingArticles(articles);
+        appendArticleRoutes(articles, setArticleRoutesInfo);
+      });
+      getRandomArticles(3).then((articles) => {
+        setDiscoverArticles(articles);
+        appendArticleRoutes(articles, setArticleRoutesInfo);
+      });
+
+      if (userData.following.length > 0) {
+        getFollowingArticles(3, userData.following).then((articles) => {
+          setFollowingArticles(articles);
+          appendArticleRoutes(articles, setArticleRoutesInfo);
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100 md:pl-[260px] mt-10 md:mt-0">
       <main className="relative h-full w-full transition-width flex flex-col items-stretch flex-1">
@@ -69,19 +92,16 @@ const Home = ({
                 title="Trending"
                 icon={<FiTrendingUp size={25} />}
                 articles={trendingArticles}
-                isLoading={isLoading}
               />
               <HomeSection
                 title="Discover"
                 icon={<FiSun size={25} />}
-                articles={discoveryArticles}
-                isLoading={isLoading}
+                articles={discoverArticles}
               />
               <HomeSection
                 title="Following"
                 icon={<FiSlack size={25} />}
                 articles={followingArticles}
-                isLoading={isLoading}
               />
             </div>
           </div>

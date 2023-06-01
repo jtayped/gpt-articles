@@ -78,9 +78,10 @@ const SignIn = ({ setLoggedIn }) => {
   const handleGoogleSignIn = async () => {
     try {
       signInWithPopup(auth, googleProvider).then(() => {
-        createUser(auth.currentUser.displayName);
-        navigate("/gpt-articles");
-        setLoggedIn(true);
+        createUser(auth.currentUser.displayName).then(() => {
+          navigate("/gpt-articles");
+          setLoggedIn(true);
+        });
       });
     } catch (err) {
       setError("There has been an error, try again later!");

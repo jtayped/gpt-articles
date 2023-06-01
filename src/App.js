@@ -30,11 +30,6 @@ import {
 function App() {
   const [isLoading, setLoading] = useState(true);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [mostLikedArticles, setMostLikedArticles] = useState([]);
-  const [recentArticles, setRecentArticles] = useState([]);
-  const [trendingArticles, setTrendingArticles] = useState([]);
-  const [discoveryArticles, setDiscoveryArticles] = useState([]);
-  const [followingArticles, setFollowingArticles] = useState([]);
   const [userData, setUserData] = useState([]);
 
   const [articleRoutesInfo, setArticleRoutesInfo] = useState([]);
@@ -42,40 +37,16 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         checkUserExists(user.uid).then((exists) => {
-          console.log(exists);
           setLoggedIn(exists);
-          setLoading(false);
+
+          getUserData(user.uid).then((userData) => {
+            setUserData(userData);
+            setLoading(false);
+          });
         });
       } else {
         setLoggedIn(false);
         setLoading(false);
-      }
-
-      if (user) {
-        getUserData(user.uid).then((userData) => {
-          setUserData(userData);
-          getArticlesOrderedBy("likeCount", 3, false).then((articles) => {
-            setMostLikedArticles(articles);
-            appendArticleRoutes(articles, setArticleRoutesInfo);
-          });
-          getArticlesOrderedBy("timestamp", 3, false).then((articles) => {
-            setRecentArticles(articles);
-            appendArticleRoutes(articles, setArticleRoutesInfo);
-          });
-          getTrendingArticles(3).then((articles) => {
-            setTrendingArticles(articles);
-            appendArticleRoutes(articles, setArticleRoutesInfo);
-          });
-          getRandomArticles(3).then((articles) => {
-            setDiscoveryArticles(articles);
-            appendArticleRoutes(articles, setArticleRoutesInfo);
-          });
-          if (userData.following.length > 0)
-            getFollowingArticles(3, userData.following).then((articles) => {
-              setFollowingArticles(articles);
-              appendArticleRoutes(articles, setArticleRoutesInfo);
-            });
-        });
       }
     });
 
@@ -110,13 +81,7 @@ function App() {
           path="/gpt-articles"
           element={
             isLoggedIn ? (
-              <Home
-                mostLikedArticles={mostLikedArticles}
-                recentArticles={recentArticles}
-                trendingArticles={trendingArticles}
-                discoveryArticles={discoveryArticles}
-                followingArticles={followingArticles}
-              />
+              <Home setArticleRoutesInfo={setArticleRoutesInfo} />
             ) : (
               <Auth />
             )
@@ -142,19 +107,17 @@ function App() {
       </Routes>
       {isLoggedIn && (
         <MobileHeader
-          recentArticles={recentArticles}
-          mostLikedArticles={mostLikedArticles}
           userData={userData}
           isLoading={isLoading}
+          setArticleRoutesInfo={setArticleRoutesInfo}
         />
       )}
       {isLoggedIn && (
         <SideBar
-          recentArticles={recentArticles}
-          mostLikedArticles={mostLikedArticles}
           userData={userData}
-          isLoading={isLoading}
+          isLoading={false}
           isMobile={false}
+          setArticleRoutesInfo={setArticleRoutesInfo}
         />
       )}
     </BrowserRouter>

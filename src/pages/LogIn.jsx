@@ -22,7 +22,7 @@ const LogIn = () => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/");
+      navigate("/gpt-articles");
     } catch (err) {
       setError("Invalid details. Try again.");
       console.error(err);
@@ -31,9 +31,9 @@ const LogIn = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-      await signInWithPopup(auth, googleProvider);
-      // The sign-in was successful, you can access the user information with `result.user`
-      navigate("/");
+      signInWithPopup(auth, googleProvider).then((userCredentials) =>
+        navigate("/gpt-articles")
+      );
     } catch (err) {
       setError("There has been an error, try again later!");
       console.error(err);

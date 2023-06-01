@@ -17,7 +17,11 @@ import DefaultPFP from "../assets/defaultPFP.webp";
 
 // JSX Components
 import { ArticleGroup } from "./index";
-import { getProfilePicture } from "../js/firebaseFunctions";
+import {
+  getArticlesOrderedBy,
+  getProfilePicture,
+} from "../js/firebaseFunctions";
+import { appendArticleRoutes } from "../js/firebaseFunctions";
 
 const SideBarAccountOption = ({ name, icon, funct }) => {
   return (
@@ -31,20 +35,30 @@ const SideBarAccountOption = ({ name, icon, funct }) => {
   );
 };
 
-const SideBar = ({
-  recentArticles,
-  mostLikedArticles,
-  userData,
-  isLoading,
-  isMobile,
-}) => {
+const SideBar = ({ userData, isLoading, isMobile, setArticleRoutesInfo }) => {
   const navigate = useNavigate();
   const [isAccountOpts, setAccountOpts] = useState(false);
   const [profilePicture, setProfilePicture] = useState("");
 
+  const [recentArticles, setRecentArticles] = useState([]);
+  const [mostLikedArticles, setMostLikedArticles] = useState([]);
+
   useEffect(() => {
-    getProfilePicture(auth.currentUser.uid).then((url) => {
-      setProfilePicture(url);
+    if (!auth.currentUser.photoURL) {
+      getProfilePicture(auth.currentUser.uid)
+        .then((url) => {
+          setProfilePicture(url);
+        })
+        .catch((err) => console.error(err));
+    }
+
+    getArticlesOrderedBy("timestamp", 4, true).then((articles) => {
+      setRecentArticles(articles);
+      appendArticleRoutes(articles, setArticleRoutesInfo);
+    });
+    getArticlesOrderedBy("likeCount", 4, false).then((articles) => {
+      setMostLikedArticles(articles);
+      appendArticleRoutes(articles, setArticleRoutesInfo);
     });
   }, []);
 

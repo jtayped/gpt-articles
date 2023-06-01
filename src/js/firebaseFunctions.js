@@ -399,7 +399,6 @@ export const checkUserExists = async (userID) => {
       getDoc(userDoc)
         .then((result) => {
           const exists = result.exists();
-          console.log(exists);
           resolve(exists);
         })
         .catch((error) => reject(error));

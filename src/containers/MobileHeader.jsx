@@ -13,12 +13,7 @@ import Logo from "../assets/vector/isolated-monochrome-white.svg";
 // Animation
 import { motion, AnimatePresence } from "framer-motion";
 
-const MobileHeader = ({
-  recentArticles,
-  mostLikedArticles,
-  userData,
-  isLoading,
-}) => {
+const MobileHeader = ({ userData, isLoading, setArticleRoutesInfo }) => {
   const [isSideBarActive, setSideBar] = useState(false);
   function toggleSideBar() {
     setSideBar(!isSideBarActive);
@@ -43,10 +38,9 @@ const MobileHeader = ({
             >
               <Sidebar
                 className="block md:hidden"
-                recentArticles={recentArticles}
-                mostLikedArticles={mostLikedArticles}
                 userData={userData}
                 isLoading={isLoading}
+                setArticleRoutesInfo={setArticleRoutesInfo}
                 isMobile={true}
               />
               <button
