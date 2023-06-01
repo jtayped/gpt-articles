@@ -150,7 +150,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
       ) : (
         <div className="w-[1000px] xl:mt-10 2xl:mt-[100px]">
           <header className="relative border-b-[1px] p-5 mt-5 md:mt-0">
-            <ul className="absolute bottom-5 right-10 flex gap-5">
+            <ol className="absolute bottom-4 right-4 flex gap-5">
               <li>
                 <button
                   className="flex items-center gap-1"
@@ -177,11 +177,13 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                 <FiMessageCircle />
                 {article.comments.length}
               </li>
-            </ul>
+            </ol>
             <div>
               <div className="flex flex-col">
-                <div className="mb-1"><Tags tags={article.tags} maxTags={maxTags} /></div>
-                
+                <div className="mb-1">
+                  <Tags tags={article.tags} maxTags={maxTags} />
+                </div>
+
                 <h1 className="text-3xl font-bold">{article.title}</h1>
                 <p className="text-sm font-thin text-gpt-50">
                   {article.timestamp
