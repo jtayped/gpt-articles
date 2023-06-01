@@ -54,6 +54,7 @@ const SideBar = ({
 
   async function handleLogOut() {
     await signOut(auth);
+    navigate("/gpt-articles");
   }
 
   function navigateToLikedPosts() {

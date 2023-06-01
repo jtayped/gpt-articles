@@ -60,7 +60,6 @@ const Home = ({
     <div className="overflow-hidden w-full h-screen relative md:flex z-0 text-slate-100 md:pl-[260px] mt-10 md:mt-0">
       <main className="relative h-full w-full transition-width flex flex-col items-stretch flex-1">
         <div className="flex flex-col items-center justify-between text-sm bg-gpt-400">
-          {" "}
           <div className="w-full md:max-w-2xl lg:max-w-3xl md:h-full md:flex md:flex-col px-6 text-gray-100">
             <h1 className="text-4xl font-semibold text-center sm:mt-[10vh] hidden md:flex ml-auto mr-auto mb-10 sm:mb-16 gap-2 items-center justify-center">
               GPT Articles

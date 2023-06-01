@@ -36,7 +36,7 @@ const AskUserData = ({ setLoggedIn }) => {
           uploadFile(draggedFile, auth.currentUser.uid, "profilePictures").then(
             () => {
               createUser(username);
-              navigate("/");
+              navigate("/gpt-articles");
               setCreatingUser(false);
               setLoggedIn(true);
             }
