@@ -71,9 +71,9 @@ This is the home page for the GPT Articles. You might recognize it as the origin
 
 ### Built With
 
-[![Next][Next.js]][Next-url]
-[![React][React.js]][React-url]
-[![Firebase][Firebase]][Firebase-url]
+[![Next][Next.js]][Next-url]<br/>
+[![React][React.js]][React-url]<br/>
+[![Firebase][Firebase]][Firebase-url]<br/>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
