@@ -43,6 +43,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
 
   useEffect(() => {
     function typeText() {
+      setText(""); // Reset the text state
       let i = -1;
       timerRef.current = setInterval(() => {
         i++;
@@ -61,6 +62,10 @@ const Article = ({ article, setArticleRoutesInfo }) => {
     if (!loading && !animationFinished) {
       typeText();
     }
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
   }, [loading, markdown.content, animationFinished]);
 
   useEffect(() => {
