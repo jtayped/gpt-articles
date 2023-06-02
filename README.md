@@ -19,7 +19,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/jtayped/gpt-articles">
-    <img src="https://github.com/jtayped/gpt-articles/raw/4174ab0960b41a102b5a7520288113b8e34362a2/images/profile.png" alt="Logo" width="200" height="200">
+    <img src="https://github.com/jtayped/gpt-articles/blob/64d24e34958dfaab904a184de0c534e4eb36bb07/public/apple-touch-icon.png" alt="Logo" width="120" height="120">
   </a>
 
 <h3 align="center">GPT Articles</h3>
