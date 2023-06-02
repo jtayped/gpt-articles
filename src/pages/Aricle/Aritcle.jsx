@@ -1,5 +1,5 @@
 // React Markdown
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // JSX Elements
 import { UserInfo, UserInfoMobile } from "../../containers";
@@ -32,19 +32,24 @@ const Article = ({ article, setArticleRoutesInfo }) => {
   const maxTags = 4;
 
   const [loading, setLoading] = useState(true);
-  const [animationSkipped, setAnimationSkipped] = useState(false);
   const [reaction, setReaction] = useState(null);
   const [markdown, setMarkdown] = useState("");
 
   const [text, setText] = useState("");
   const [showCursor, setShowCursor] = useState(true);
+  const [animationFinished, setAnimationFinished] = useState(false);
+
+  const timerRef = useRef(null);
 
   useEffect(() => {
     function typeText() {
       let i = -1;
-      let timer = setInterval(() => {
+      timerRef.current = setInterval(() => {
         i++;
-        if (i === markdown.content.length - 1) clearInterval(timer);
+        if (i === markdown.content.length - 1) {
+          clearInterval(timerRef.current);
+          setAnimationFinished(true);
+        }
         setText((prev) => prev + markdown.content[i]);
       }, 0.01);
 
@@ -53,10 +58,10 @@ const Article = ({ article, setArticleRoutesInfo }) => {
       }, 500);
     }
 
-    if (!loading && !animationSkipped) {
+    if (!loading && !animationFinished) {
       typeText();
     }
-  }, [loading, markdown.content, animationSkipped]);
+  }, [loading, markdown.content, animationFinished]);
 
   useEffect(() => {
     const currentUserID = auth.currentUser.uid;
@@ -134,8 +139,9 @@ const Article = ({ article, setArticleRoutesInfo }) => {
   };
 
   function skipAnimation() {
+    clearInterval(timerRef.current); // Clear the typing interval
     setText(markdown.content);
-    setAnimationSkipped(true);
+    setAnimationFinished(true);
   }
 
   return (
@@ -194,26 +200,31 @@ const Article = ({ article, setArticleRoutesInfo }) => {
           </header>
           <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5">
             <UserInfoMobile authorID={article.authorID} />
-            <article className="lg:text-justify px-1 lg:px-0">
+            <article className="lg:text-justify px-1 lg:px-0 relative">
               <React.Fragment>
                 <ReactMarkdown className="article">{text}</ReactMarkdown>
-                <div
-                  className={`h-[20px] w-[6px] bg-white ${
-                    showCursor ? "block" : "hidden"
-                  }`}
-                />
-                <div className="flex md:w-full md:m-auto md:mb-2 gap-0 md:gap-2 fixed bottom-10 left-1/2 transform translate-x-[-50%]">
-                  <button
-                    className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm"
-                    onClick={() => skipAnimation()}
-                  >
-                    <div className="flex w-full gap-2 items-center justify-center">
-                      <FiSkipForward /> Skip animation
-                    </div>
-                  </button>
-                </div>
+                {animationFinished ? null : (
+                  <div
+                    className={`h-[20px] w-[6px] bg-white ${
+                      showCursor ? "block" : "hidden"
+                    }`}
+                  />
+                )}
+                {animationFinished ? null : (
+                  <div className="flex justify-center fixed bottom-10 left-1/2 transform -translate-x-1/2">
+                    <button
+                      className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm md:w-[180px]"
+                      onClick={() => skipAnimation()}
+                    >
+                      <div className="flex w-full gap-2 items-center justify-center">
+                        <FiSkipForward /> Skip animation
+                      </div>
+                    </button>
+                  </div>
+                )}
               </React.Fragment>
             </article>
+
             <aside className="flex-col gap-3 sticky top-7 h-full hidden lg:flex">
               {article.authorID ? (
                 <UserInfo
