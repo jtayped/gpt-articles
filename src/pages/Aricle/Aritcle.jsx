@@ -94,6 +94,13 @@ const Article = ({ article, setArticleRoutesInfo }) => {
     } else {
       setReaction(null);
     }
+
+    // Cleanup function to reset the text and animation state
+    return () => {
+      clearInterval(timerRef.current);
+      setText("");
+      setAnimationFinished(false);
+    };
   }, [article]);
 
   const formatTimestamp = (seconds) => {
