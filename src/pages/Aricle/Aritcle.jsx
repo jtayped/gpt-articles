@@ -167,7 +167,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
         {loading ? (
           <LoadingMessage message="Loading Article" />
         ) : (
-          <div className="w-[1000px] xl:mt-10 2xl:mt-[100px]">
+          <div className="xl:w-[1000px] xl:mt-10 2xl:mt-[100px]">
             <header className="relative border-b-[1px] p-5 mt-5 md:mt-0">
               <ol className="absolute bottom-4 right-4 flex gap-5">
                 <li>
@@ -225,7 +225,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                     />
                   )}
                   {animationFinished ? null : (
-                    <div className="flex justify-center fixed bottom-[130px] left-1/2 transform -translate-x-1/2 md:pl-[260px]">
+                    <div className="flex justify-center fixed bottom-10 left-1/2 transform -translate-x-1/2 md:pl-[260px]">
                       <button
                         className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm md:w-[180px]"
                         onClick={() => skipAnimation()}
@@ -251,7 +251,6 @@ const Article = ({ article, setArticleRoutesInfo }) => {
             </div>
           </div>
         )}
-        <Search />
       </div>
     </main>
   );
