@@ -9,6 +9,7 @@ import {
   LogIn,
   SignUp,
   Article,
+  CreateArticle,
   Development,
   NotFound,
 } from "./pages";
@@ -82,7 +83,7 @@ function App() {
 
         {articleRoutes}
 
-        <Route exact path="/gpt-articles/create" element={<Development />} />
+        <Route exact path="/gpt-articles/create" element={<CreateArticle />} />
         <Route exact path="/gpt-articles/liked" element={<Development />} />
         {!isLoggedIn && (
           <Route exact path="/gpt-articles/login" element={<LogIn />} />

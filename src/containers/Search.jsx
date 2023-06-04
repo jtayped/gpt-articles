@@ -13,7 +13,7 @@ const Search = () => {
   }
 
   return (
-    <div className="absolute bottom-0 left-0 w-full min-h-fit border-t md:border-t-0 border-white/20 md:border-transparent md:bg-vert-light-gradient bg-gpt-400 md:!bg-transparent md:bg-vert-dark-gradient pt-2">
+    <div className="fixed bottom-0 left-0 w-full md:pl-[260px] min-h-fit border-t border-white/20 bg-gpt-400 pt-2">
       <form
         onSubmit={() => searchForArticles()}
         className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl"

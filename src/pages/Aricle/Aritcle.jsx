@@ -1,8 +1,8 @@
-// React Markdown
+// React Util
 import React, { useState, useEffect, useRef } from "react";
 
 // JSX Elements
-import { UserInfo, UserInfoMobile } from "../../containers";
+import { UserInfo, UserInfoMobile, Search } from "../../containers";
 import { LoadingMessage, NewsLetter, Tags } from "../../components";
 
 // JS
@@ -162,93 +162,97 @@ const Article = ({ article, setArticleRoutesInfo }) => {
         loading ? "h-screen flex justify-center items-center" : ""
       }`}
     >
-      {loading ? (
-        <LoadingMessage message="Loading Article" />
-      ) : (
-        <div className="w-[1000px] xl:mt-10 2xl:mt-[100px]">
-          <header className="relative border-b-[1px] p-5 mt-5 md:mt-0">
-            <ol className="absolute bottom-4 right-4 flex gap-5">
-              <li>
-                <button
-                  className="flex items-center gap-1"
-                  onClick={handleLike}
-                >
-                  {reaction === true ? <AiFillLike /> : <AiOutlineLike />}
-                  {article.likeCount}
-                </button>
-              </li>
-              <li>
-                <button
-                  className="flex items-center gap-1"
-                  onClick={handleDislike}
-                >
-                  {reaction === false ? (
-                    <AiFillDislike />
-                  ) : (
-                    <AiOutlineDislike />
-                  )}
-                  {article.dislikeCount}
-                </button>
-              </li>
-              <li className="flex items-center gap-1">
-                <FiMessageCircle />
-                {article.comments.length}
-              </li>
-            </ol>
-            <div>
-              <div className="flex flex-col">
-                <div className="mb-1">
-                  <Tags tags={article.tags} maxTags={maxTags} />
-                </div>
-
-                <h1 className="text-3xl font-bold">{article.title}</h1>
-                <p className="text-sm font-thin text-gpt-50">
-                  {article.timestamp
-                    ? formatTimestamp(article.timestamp.seconds)
-                    : null}
-                </p>
-              </div>
-            </div>
-          </header>
-          <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5">
-            <UserInfoMobile authorID={article.authorID} />
-            <article className="lg:text-justify px-1 lg:px-0 relative">
-              <React.Fragment>
-                <ReactMarkdown className="article">{text}</ReactMarkdown>
-                {animationFinished ? null : (
-                  <div
-                    className={`h-[20px] w-[6px] bg-white ${
-                      showCursor ? "block" : "hidden"
-                    }`}
-                  />
-                )}
-                {animationFinished ? null : (
-                  <div className="flex justify-center fixed bottom-10 left-1/2 transform -translate-x-1/2">
-                    <button
-                      className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm md:w-[180px]"
-                      onClick={() => skipAnimation()}
-                    >
-                      <div className="flex w-full gap-2 items-center justify-center">
-                        <FiSkipForward /> Skip animation
-                      </div>
-                    </button>
+      <div className="flex flex-col items-center justify-between">
+        {" "}
+        {loading ? (
+          <LoadingMessage message="Loading Article" />
+        ) : (
+          <div className="w-[1000px] xl:mt-10 2xl:mt-[100px]">
+            <header className="relative border-b-[1px] p-5 mt-5 md:mt-0">
+              <ol className="absolute bottom-4 right-4 flex gap-5">
+                <li>
+                  <button
+                    className="flex items-center gap-1"
+                    onClick={handleLike}
+                  >
+                    {reaction === true ? <AiFillLike /> : <AiOutlineLike />}
+                    {article.likeCount}
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className="flex items-center gap-1"
+                    onClick={handleDislike}
+                  >
+                    {reaction === false ? (
+                      <AiFillDislike />
+                    ) : (
+                      <AiOutlineDislike />
+                    )}
+                    {article.dislikeCount}
+                  </button>
+                </li>
+                <li className="flex items-center gap-1">
+                  <FiMessageCircle />
+                  {article.comments.length}
+                </li>
+              </ol>
+              <div>
+                <div className="flex flex-col">
+                  <div className="mb-1">
+                    <Tags tags={article.tags} maxTags={maxTags} />
                   </div>
-                )}
-              </React.Fragment>
-            </article>
 
-            <aside className="flex-col gap-3 sticky top-7 h-full hidden lg:flex">
-              {article.authorID ? (
-                <UserInfo
-                  authorID={article.authorID}
-                  setArticleRoutesInfo={setArticleRoutesInfo}
-                />
-              ) : null}
-              <NewsLetter />
-            </aside>
+                  <h1 className="text-3xl font-bold">{article.title}</h1>
+                  <p className="text-sm font-thin text-gpt-50">
+                    {article.timestamp
+                      ? formatTimestamp(article.timestamp.seconds)
+                      : null}
+                  </p>
+                </div>
+              </div>
+            </header>
+            <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5 mb-10">
+              <UserInfoMobile authorID={article.authorID} />
+              <article className="lg:text-justify px-1 lg:px-0 relative">
+                <React.Fragment>
+                  <ReactMarkdown className="article">{text}</ReactMarkdown>
+                  {animationFinished ? null : (
+                    <div
+                      className={`h-[20px] w-[6px] bg-white ${
+                        showCursor ? "block" : "hidden"
+                      }`}
+                    />
+                  )}
+                  {animationFinished ? null : (
+                    <div className="flex justify-center fixed bottom-[130px] left-1/2 transform -translate-x-1/2 md:pl-[260px]">
+                      <button
+                        className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm md:w-[180px]"
+                        onClick={() => skipAnimation()}
+                      >
+                        <div className="flex w-full gap-2 items-center justify-center">
+                          <FiSkipForward /> Skip animation
+                        </div>
+                      </button>
+                    </div>
+                  )}
+                </React.Fragment>
+              </article>
+
+              <aside className="flex-col gap-3 sticky top-7 h-full hidden lg:flex">
+                {article.authorID ? (
+                  <UserInfo
+                    authorID={article.authorID}
+                    setArticleRoutesInfo={setArticleRoutesInfo}
+                  />
+                ) : null}
+                <NewsLetter />
+              </aside>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+        <Search />
+      </div>
     </main>
   );
 };
