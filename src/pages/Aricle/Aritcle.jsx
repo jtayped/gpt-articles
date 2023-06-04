@@ -252,6 +252,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
           </div>
         )}
       </div>
+      <Search />
     </main>
   );
 };
