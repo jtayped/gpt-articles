@@ -83,7 +83,11 @@ function App() {
 
         {articleRoutes}
 
-        <Route exact path="/gpt-articles/create" element={<CreateArticle />} />
+        <Route
+          exact
+          path="/gpt-articles/create"
+          element={<CreateArticle setArticleRoutes={setArticleRoutesInfo} />}
+        />
         <Route exact path="/gpt-articles/liked" element={<Development />} />
         {!isLoggedIn && (
           <Route exact path="/gpt-articles/login" element={<LogIn />} />

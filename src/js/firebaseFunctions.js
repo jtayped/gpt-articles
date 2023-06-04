@@ -17,39 +17,39 @@ import {
 } from "firebase/firestore";
 import { auth, db, storage } from "../config/firebase";
 import { v4 as uuidv4 } from "uuid";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  uploadString,
+} from "firebase/storage";
 
-export const createArticle = async (
-  authorId,
-  title,
-  article,
-  coverURL,
-  tags
-) => {
-  try {
-    const articleID = uuidv4();
-    const articleRef = doc(db, "/articles", articleID);
+export const createArticle = async (authorId, title, article, tags) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const articleID = uuidv4();
+      const articleRef = doc(db, "/articles", articleID);
+      const storageRef = ref(storage, `articles/${articleID}.md`);
 
-    const newArticle = {
-      title: title,
-      article: article,
-      authorID: authorId,
-      articleID: articleID,
-      coverURL: coverURL,
-      tags: tags,
-      comments: [],
-      likeCount: 0,
-      dislikeCount: 0,
-      likes: [],
-      dislikes: [],
-      timestamp: serverTimestamp(),
-    };
+      const newArticle = {
+        title: title,
+        authorID: authorId,
+        articleID: articleID,
+        tags: tags,
+        comments: [],
+        likeCount: 0,
+        dislikeCount: 0,
+        likes: [],
+        dislikes: [],
+        timestamp: serverTimestamp(),
+      };
 
-    // Set the new article document in the specified path
-    await setDoc(articleRef, newArticle);
-  } catch (error) {
-    console.error(error);
-  }
+      await uploadString(storageRef, article, "raw");
+      setDoc(articleRef, newArticle).then(() => resolve(newArticle));
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
 export const getArticlesOrderedBy = async (orderedBy, nArticles, ascending) => {
