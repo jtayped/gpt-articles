@@ -212,7 +212,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                 </div>
               </div>
             </header>
-            <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5 mb-10">
+            <div className="flex justify-between flex-col lg:flex-row lg:gap-10 p-5 mb-[150px]">
               <UserInfoMobile authorID={article.authorID} />
               <article className="lg:text-justify px-1 lg:px-0 relative">
                 <React.Fragment>
@@ -225,7 +225,7 @@ const Article = ({ article, setArticleRoutesInfo }) => {
                     />
                   )}
                   {animationFinished ? null : (
-                    <div className="flex justify-center fixed bottom-10 left-1/2 transform -translate-x-1/2 md:pl-[260px]">
+                    <div className="flex justify-center fixed bottom-[150px] left-1/2 transform -translate-x-1/2 md:pl-[260px]">
                       <button
                         className="btn relative border-[1px] border-gpt-50/50 p-1 px-3 bg-gpt-300 hover:bg-[#41414b] shadow-lg rounded-sm md:w-[180px]"
                         onClick={() => skipAnimation()}
