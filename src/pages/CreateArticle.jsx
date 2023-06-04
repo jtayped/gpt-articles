@@ -6,11 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FiClipboard, FiCheck } from "react-icons/fi";
 
 // Firebase
-import {
-  appendArticleRoutes,
-  createArticle,
-  createArticleLink,
-} from "../js/firebaseFunctions";
+import { createArticle } from "../js/firebaseFunctions";
 import { auth } from "../config/firebase";
 
 const CreateArticle = ({ setArticleRoutes }) => {
