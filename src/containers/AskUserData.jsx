@@ -78,7 +78,6 @@ const AskUserData = ({ setLoggedIn }) => {
           className={`h-[205px] w-full shadow-lg rounded-lg border-[#10A37F95] border-2 border-dashed flex flex-col justify-center transition-all duration-50 ${
             dragOver ? "bg-[#10A37F30] text-[#10A37F] items-center" : ""
           }`}
-          onDrop={(e) => handleDrop(e)}
           onDragLeave={(e) => handleDragLeave(e)}
           onDragEnter={(e) => handleDragEnter(e)}
           onDragOver={(e) => handleDragOver(e)}
@@ -99,6 +98,7 @@ const AskUserData = ({ setLoggedIn }) => {
               <input
                 type="file"
                 className="text-xs w-[120px] sm:w-fit"
+                onDrop={(e) => handleDrop(e)}
                 onChange={(e) => setDraggedFile(e.target.files[0])}
               />
             </div>
